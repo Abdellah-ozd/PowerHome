@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="30dp"
+    android:background="@color/power_bg"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo_login"
+        android:layout_width="150dp"
+        android:layout_height="130dp"
+        android:layout_marginBottom="40dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/powerhomelogo"
+        app:tint="@color/power_blue"/>
+
+    <EditText
+        android:id="@+id/et_login_email"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/power_input_bg"
+        android:hint="@string/login_hint_email"
+        android:textColor="@color/power_text_dark"
+        android:textColorHint="#9CA3AF"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="16dp"/>
+    <EditText
+        android:id="@+id/et_login_pass"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/power_input_bg"
+        android:hint="@string/login_hint_pass"
+        android:textColor="@color/power_text_dark"
+        android:textColorHint="#9CA3AF"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:inputType="textPassword"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/btn_login_connect"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/btn_connect"
+        android:backgroundTint="@color/power_blue"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btn_login_forgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_forgot"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="@color/power_orange"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_login_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_register"
+        android:backgroundTint="@color/power_input_bg"
+        android:textColor="@color/power_blue"/>
+
+    <Button
+        android:id="@+id/btn_login_social"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_social"
+        android:backgroundTint="#3b5998"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>
