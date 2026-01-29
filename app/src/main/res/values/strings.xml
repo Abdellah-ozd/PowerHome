@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TP1PowerHome</string>
-    <string name="splash_welcome_name">From AbdSoftware</string>
+    <string name="splash_footer">From AbdSoftware</string>
     <string name="login_hint_email">Email ou Identifiant</string>
     <string name="login_hint_pass">Mot de passe</string>
 
