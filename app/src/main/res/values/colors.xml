@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="power_bg">#483C46</color>
+    <color name="power_accent">#BEEE62</color>
+    <color name="power_input_bg">#3C6E71</color>
+    <color name="power_text_secondary">#F4743B</color>
+    <color name="power_green_mid">#70AE6E</color>
+</resources>
