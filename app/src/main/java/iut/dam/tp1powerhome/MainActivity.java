@@ -1,6 +1,8 @@
 package iut.dam.tp1powerhome;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;

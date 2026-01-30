@@ -17,8 +17,7 @@
         android:layout_height="130dp"
         android:layout_marginBottom="40dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/powerhomelogo"
-        app:tint="@color/power_blue"/>
+        android:src="@drawable/powerhomelogo" />
 
     <EditText
         android:id="@+id/et_login_email"
@@ -54,6 +53,7 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="16sp"
+        android:onClick="test"
         android:layout_marginBottom="16dp"/>
 
     <Button
