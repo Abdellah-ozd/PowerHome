@@ -5,9 +5,11 @@
 
     <string name="login_hint_email">Correo o Usuario</string>
     <string name="login_hint_pass">Contraseña</string>
+    <string name="text_register">Nuevo on PowerHome ?</string>
 
     <string name="btn_connect">Iniciar Sesión</string>
     <string name="btn_register">Registrarse</string>
     <string name="btn_forgot">¿Contraseña olvidada?</string>
     <string name="btn_social">Continuar con Facebook</string>
+    <string name="ou">OR</string>
 </resources>

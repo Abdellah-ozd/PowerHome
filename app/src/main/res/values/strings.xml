@@ -4,10 +4,12 @@
 
     <string name="login_hint_email">Email ou Identifiant</string>
     <string name="login_hint_pass">Mot de passe</string>
+    <string name="text_register">Nouveau sur PowerHome</string>
 
     <string name="btn_connect">Se connecter</string>
     <string name="btn_register">Créer un compte</string>
     <string name="btn_forgot">Mot de passe oublié ?</string>
     <string name="btn_social">Continuer avec Facebook</string>
+    <string name="ou">OU</string>
 
 </resources>

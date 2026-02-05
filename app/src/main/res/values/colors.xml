@@ -15,4 +15,7 @@
 
     <color name="power_input_bg">#E5E7EB</color>
 
+    <color name="jumia_orange">#F68B1E</color>
+    <color name="jumia_blue">#264E8C</color>
+    <color name="facebook_blue">#3b5998</color>
 </resources>
