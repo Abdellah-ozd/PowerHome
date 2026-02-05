@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_register"
             android:textColor="@color/white"
-            android:backgroundTint="@color/power_blue"
+            android:backgroundTint="@color/power_orange"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"/>
 
@@ -116,7 +116,12 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_social"
             android:backgroundTint="#3b5998"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_facebook"
+            app:iconTint="@color/white"
+            app:iconPadding="10dp"
+            app:iconGravity="textStart"
+            android:layout_marginTop="5dp"/>
 
     </LinearLayout>
 
