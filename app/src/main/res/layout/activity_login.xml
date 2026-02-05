@@ -81,7 +81,7 @@
         android:backgroundTint="#3b5998"
         android:textColor="@color/white"
         app:icon="@drawable/ic_facebook"
-        app:iconTint="@color/white"
+        app:iconTint="@null"
         app:iconPadding="10dp"
         app:iconGravity="textStart"
         android:layout_marginTop="5dp"/>

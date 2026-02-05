@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("LoginActivity:onClick", "Click connect");
         Toast t = Toast.makeText(view.getContext(), "Connexion impossible", Toast.LENGTH_LONG);
         t.show();
-        Snackbar s = Snackbar.make(view, "Co impo", Snackbar.LENGTH_LONG);
-
+        Snackbar s = Snackbar.make(view, "Connexion impossible", Snackbar.LENGTH_LONG);
+        s.show();
     }
 }

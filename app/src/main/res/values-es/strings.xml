@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PowerHome</string>
+    <string name="splash_footer">Desarrollado por IUT Paris</string>
+
+    <string name="login_hint_email">Correo o Usuario</string>
+    <string name="login_hint_pass">Contraseña</string>
+
+    <string name="btn_connect">Iniciar Sesión</string>
+    <string name="btn_register">Registrarse</string>
+    <string name="btn_forgot">¿Contraseña olvidada?</string>
+    <string name="btn_social">Continuar con Facebook</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PowerHome</string>
+    <string name="splash_footer">Powered by IUT Paris</string>
+
+    <string name="login_hint_email">Email or Username</string>
+    <string name="login_hint_pass">Password</string>
+
+    <string name="btn_connect">Log In</string>
+    <string name="btn_register">Sign Up</string>
+    <string name="btn_forgot">Forgot Password?</string>
+    <string name="btn_social">Continue with Facebook</string>
+</resources>
