@@ -1,15 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PowerHome</string>
-    <string name="splash_footer">Powered by IUT Paris</string>
+    <string name="app_name">TP1PowerHome</string>
+    <string name="splash_footer">From AbdSoftware</string>
 
-    <string name="login_hint_email">Email or Username</string>
+    <string name="login_toolbar_title">Log In</string>
+    <string name="login_title">Log In</string>
+
+    <string name="login_hint_email">E-mail</string>
     <string name="login_hint_pass">Password</string>
-    <string name="text_register">New on PowerHome ?</string>
 
-    <string name="btn_connect">Log In</string>
-    <string name="btn_register">Sign Up</string>
-    <string name="btn_forgot">Forgot Password?</string>
+    <string name="login_new_user">New to Jumia?</string>
+    <string name="login_or">OR</string>
+
+    <string name="btn_connect">LOG IN</string>
+    <string name="btn_register">CREATE AN ACCOUNT</string>
+    <string name="btn_forgot">FORGOT PASSWORD?</string>
     <string name="btn_social">Continue with Facebook</string>
-    <string name="ou">OR</string>
 </resources>
