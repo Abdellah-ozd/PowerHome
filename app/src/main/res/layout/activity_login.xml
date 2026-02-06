@@ -30,25 +30,51 @@
             android:textColor="#444"
             android:layout_marginBottom="24dp"/>
 
-        <EditText
-            android:id="@+id/et_email"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/login_hint_email"
-            android:inputType="textEmailAddress"
-            android:drawableStart="@android:drawable/ic_dialog_email"
-            android:drawablePadding="12dp"
-            android:layout_marginBottom="16dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/et_pass"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_dialog_email"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitCenter"
+                app:tint="#888"/>
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_hint_email"
+                android:inputType="textEmailAddress"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/login_hint_pass"
-            android:inputType="textPassword"
-            android:drawableStart="@android:drawable/ic_lock_idle_lock"
-            android:drawablePadding="12dp"
-            android:layout_marginBottom="16dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_lock_idle_lock"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitCenter"
+                app:tint="#888"/>
+
+            <EditText
+                android:id="@+id/et_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_hint_pass"
+                android:inputType="textPassword"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,7 +94,9 @@
             android:backgroundTint="@color/jumia_orange"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_marginBottom="20dp"/>
+            app:cornerRadius="0dp"
+            android:onClick="test"
+            android:layout_marginBottom="20dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -120,8 +148,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_social"
-            android:backgroundTint="@color/facebook_blue"
-            android:textColor="@color/white"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/facebook_blue"
+            app:cornerRadius="0dp"
             app:iconTint="@null"
             app:icon="@drawable/ic_facebook"
             app:iconGravity="textStart"
