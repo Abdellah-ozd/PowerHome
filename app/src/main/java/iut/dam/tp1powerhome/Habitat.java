@@ -19,12 +19,12 @@ public class Habitat implements Serializable {
         this.appliances = new ArrayList<>();
     }
 
-    // Méthode pour ajouter un équipement facilement
+    // Ajoute un équipement
     public void addAppliance(Appliance appliance) {
         this.appliances.add(appliance);
     }
 
-    // --- GETTERS & HELPER METHODS ---
+    // --- GETTERS ---
 
     public String getResidentName() {
         return residentName;
@@ -34,16 +34,17 @@ public class Habitat implements Serializable {
         return floor;
     }
 
-    public double getArea() {
-        return area;
+    // MÉTHODE AJOUTÉE (Utilisée par l'adaptateur pour la boucle des icônes)
+    public List<Appliance> getAppliances() {
+        return appliances;
     }
 
-    // Helper pour afficher l'étage joliment (ex: "1er ETAGE")
-    public String getFloorLabel() {
-        return floor + (floor == 1 ? "er " : "e ") + "ETAGE";
+    // MÉTHODE AJOUTÉE (Pour afficher juste le chiffre de l'étage)
+    public String getFloorNumber() {
+        return String.valueOf(floor);
     }
 
-    // Helper pour compter les équipements (ex: "4 équipements")
+    // Pour afficher "4 équipements"
     public String getApplianceCountLabel() {
         int count = appliances.size();
         return count + " équipement" + (count > 1 ? "s" : "");
