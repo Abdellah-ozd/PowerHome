@@ -71,7 +71,7 @@ public class WelcomeActivity extends AppCompatActivity {
         message.append("📐 Surface : ").append(habitat.getArea()).append(" m²\n\n");
 
         message.append("🔌 Liste des équipements :\n");
-        message.append("--------------------------\n");
+        message.append("-------------------------\n");
 
         // On liste chaque appareil avec sa conso
         for (Appliance app : habitat.getAppliances()) {
