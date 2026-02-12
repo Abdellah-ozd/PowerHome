@@ -8,11 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.List;
+import iut.dam.tp1powerhome.appliance.IAppliance;
 
 public class HabitatAdapter extends ArrayAdapter<Habitat> {
 
@@ -24,47 +23,65 @@ public class HabitatAdapter extends ArrayAdapter<Habitat> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Habitat habitat = getItem(position);
-
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_habitat, parent, false);
         }
 
-        // 1. Récupération des vues
         TextView tvName = convertView.findViewById(R.id.tv_resident_name);
         TextView tvCount = convertView.findViewById(R.id.tv_appliances_count);
         TextView tvFloorNum = convertView.findViewById(R.id.tv_floor_number);
         LinearLayout iconsContainer = convertView.findViewById(R.id.ll_icons_container);
 
         if (habitat != null) {
-            // 2. Textes
             tvName.setText(habitat.getResidentName());
-            tvCount.setText(habitat.getApplianceCountLabel());
-            tvFloorNum.setText(habitat.getFloorNumber()); // Affiche juste "1"
 
-            // 3. LES ICÔNES (Version Simplifiée) ⚙️⚙️⚙️
+            // Gestion Pluriels Internationalisée
+            int count = habitat.getAppliances().size();
+            String countLabel;
+            if (count == 0) {
+                countLabel = getContext().getString(R.string.no_appliance);
+            } else if (count == 1) {
+                countLabel = getContext().getString(R.string.appliance_count_singular, count);
+            } else {
+                countLabel = getContext().getString(R.string.appliance_count_plural, count);
+            }
+            tvCount.setText(countLabel);
 
-            // On vide le conteneur avant de le remplir (très important !)
+            // Gestion RDC Internationalisée
+            if (habitat.getFloor() == 0) {
+                tvFloorNum.setText(getContext().getString(R.string.floor_rdc));
+                tvFloorNum.setTextSize(12);
+            } else {
+                tvFloorNum.setText(String.valueOf(habitat.getFloor()));
+                tvFloorNum.setTextSize(16);
+            }
+
+            // Limitation Icônes +X
             iconsContainer.removeAllViews();
+            List<IAppliance> apps = habitat.getAppliances();
+            int maxIcons = 8;
 
-            // Pour chaque équipement dans la liste, on ajoute une icône générique
-            for (int i = 0; i < habitat.getAppliances().size(); i++) {
-                ImageView iv = new ImageView(getContext());
-
-                // Taille de l'icône (20dp)
-                int size = (int) (20 * getContext().getResources().getDisplayMetrics().density);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-                params.setMargins(4, 0, 4, 0); // Espace entre les icônes
-                iv.setLayoutParams(params);
-
-                // Icône générique pour tout le monde (engrenage)
-                iv.setImageResource(android.R.drawable.ic_menu_manage);
-                iv.setColorFilter(0xFF555555); // Gris foncé
-
-                // On l'ajoute à la ligne
-                iconsContainer.addView(iv);
+            for (int i = 0; i < apps.size(); i++) {
+                if (i < maxIcons) {
+                    ImageView iv = new ImageView(getContext());
+                    int size = (int) (18 * getContext().getResources().getDisplayMetrics().density);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+                    params.setMargins(2, 0, 2, 0);
+                    iv.setLayoutParams(params);
+                    iv.setImageResource(apps.get(i).getIconResId());
+                    iv.setColorFilter(0xFF777777);
+                    iconsContainer.addView(iv);
+                } else {
+                    TextView tvMore = new TextView(getContext());
+                    tvMore.setText("+" + (apps.size() - maxIcons));
+                    tvMore.setTextSize(11);
+                    tvMore.setTextColor(0xFF777777);
+                    tvMore.setPadding(4, 0, 0, 0);
+                    iconsContainer.addView(tvMore);
+                    break;
+                }
             }
         }
-
         return convertView;
     }
 }

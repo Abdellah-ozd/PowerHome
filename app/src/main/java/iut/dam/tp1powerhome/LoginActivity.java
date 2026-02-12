@@ -2,18 +2,12 @@ package iut.dam.tp1powerhome;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = (etPass != null) ? etPass.getText().toString() : "";
 
         // 2. VERIFICATION (La consigne du TP3a)
-        if (email.equals("test") && password.equals("test")) {
+        if (email.equals("") && password.equals("")) {
             // C'est gagné -> On prépare le voyage
             Intent intent = new Intent(this, WelcomeActivity.class);
 

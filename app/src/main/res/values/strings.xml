@@ -1,18 +1,30 @@
 <resources>
-    <string name="app_name">TP1PowerHome</string>
+    <string name="app_name">TPPowerHome</string>
     <string name="splash_footer">From AbdSoftware</string>
 
-    <string name="login_toolbar_title">Connectez-vous</string>
-    <string name="login_title">Identifiez-vous</string>
-
+    <string name="login_toolbar_title">Login</string>
+    <string name="login_title">Identify yourself</string>
     <string name="login_hint_email">E-mail</string>
-    <string name="login_hint_pass">Mot de passe</string>
+    <string name="login_hint_pass">Password</string>
+    <string name="login_new_user">New to Jumia?</string>
+    <string name="login_or">OR</string>
+    <string name="btn_connect">LOGIN</string>
+    <string name="btn_register">CREATE AN ACCOUNT</string>
+    <string name="btn_forgot">FORGOT PASSWORD?</string>
+    <string name="btn_social">Continue with Facebook</string>
 
-    <string name="login_new_user">Nouveau sur Jumia?</string>
-    <string name="login_or">OU</string>
+    <string name="welcome_title">Resident List</string>
+    <string name="floor_label">FLOOR</string>
+    <string name="floor_rdc">GF</string>
+    <string name="appliance_count_singular">%1$d appliance</string>
+    <string name="appliance_count_plural">%1$d appliances</string>
+    <string name="no_appliance">No appliance</string>
 
-    <string name="btn_connect">CONNECTEZ-VOUS</string>
-    <string name="btn_register">CRÉÉ UN COMPTE</string>
-    <string name="btn_forgot">MOT DE PASSE OUBLIÉ ?</string>
-    <string name="btn_social">Continuer avec Facebook</string>
+    <string name="dialog_area_format">📐 %1$.1f sqm</string>
+    <string name="dialog_floor_format">📍 Floor: %1$d</string>
+    <string name="dialog_floor_rdc">📍 Ground Floor</string>
+    <string name="dialog_total_power_format">⚡ Total: %1$d W</string>
+    <string name="dialog_list_title">Appliance details:</string>
+    <string name="dialog_btn_close">Close</string>
+    <string name="appliance_detail_format">%1$s (%2$d W)</string>
 </resources>
