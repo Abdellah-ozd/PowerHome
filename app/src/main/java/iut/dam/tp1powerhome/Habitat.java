@@ -8,7 +8,7 @@ public class Habitat implements Serializable {
     private int id;
     private String residentName;
     private int floor;
-    private double area;
+    private double area; // La variable est là
     private List<Appliance> appliances;
 
     public Habitat(int id, String residentName, int floor, double area) {
@@ -34,12 +34,17 @@ public class Habitat implements Serializable {
         return floor;
     }
 
-    // MÉTHODE AJOUTÉE (Utilisée par l'adaptateur pour la boucle des icônes)
+    // 👇 C'EST LUI QU'IL MANQUAIT ! 👇
+    public double getArea() {
+        return area;
+    }
+
+    // Utilisée par l'adaptateur pour la boucle des icônes
     public List<Appliance> getAppliances() {
         return appliances;
     }
 
-    // MÉTHODE AJOUTÉE (Pour afficher juste le chiffre de l'étage)
+    // Pour afficher juste le chiffre de l'étage
     public String getFloorNumber() {
         return String.valueOf(floor);
     }

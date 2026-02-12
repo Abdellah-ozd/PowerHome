@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = (etPass != null) ? etPass.getText().toString() : "";
 
         // 2. VERIFICATION (La consigne du TP3a)
-        if (email.equals("abcd") && password.equals("EFGH")) {
+        if (email.equals("test") && password.equals("test")) {
             // C'est gagné -> On prépare le voyage
             Intent intent = new Intent(this, WelcomeActivity.class);
 
