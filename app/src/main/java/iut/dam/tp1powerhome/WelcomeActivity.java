@@ -1,12 +1,17 @@
-package iut.dam.tp1powerhome;
+package iut.dam.tp1powerhome    ;
 
 import android.os.Bundle;
 import android.widget.ListView;
-import androidx.appcompat.app.AlertDialog; // Important pour la Dialog
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import iut.dam.tp1powerhome.appliance.types.*;
+import iut.dam.tp1powerhome.appliance.*;
+
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -15,80 +20,110 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        // --- 1. CRÉATION DES DONNÉES (Avec la consommation en W) ---
         List<Habitat> habitats = new ArrayList<>();
 
-        // Gaëtan (4 équipements)
+        // Gaëtan
         Habitat h1 = new Habitat(1, "Gaëtan Leclair", 0, 45.0);
-        h1.addAppliance(new Appliance("Lampe", 60));
-        h1.addAppliance(new Appliance("TV", 150));
-        h1.addAppliance(new Appliance("PC Gamer", 400));
-        h1.addAppliance(new Appliance("Frigo", 200));
+        h1.addAppliance(new Television("TV Samsung", 150)); // Hérite de Appliance
+        h1.addAppliance(new Computer("PC Gamer", 400));
+        h1.addAppliance(new Fridge("Frigo Américain", 200));
+        h1.addAppliance(new Lamp("Lampe Salon", 60));
         habitats.add(h1);
 
-        // Cédric (1 équipement)
-        Habitat h2 = new Habitat(2, "Cédric Boudet", 1, 30.5);
-        h2.addAppliance(new Appliance("Micro-ondes", 800));
-        habitats.add(h2);
+        // ... tes autres habitants (Cédric, Gaylord...) ...
 
-        // Gaylord (2 équipements)
-        Habitat h3 = new Habitat(3, "Gaylord Thibodeaux", 2, 50.0);
-        h3.addAppliance(new Appliance("Lave-linge", 2000));
-        h3.addAppliance(new Appliance("TV", 120));
-        habitats.add(h3);
-
-        // Adam (3 équipements)
+        // Adam - DÉMO DU PRINCIPE DE SUBSTITUTION (LSP) avec ton Interface IAppliance
         Habitat h4 = new Habitat(4, "Adam Jacquinot", 3, 62.0);
-        h4.addAppliance(new Appliance("Four", 2500));
-        h4.addAppliance(new Appliance("PC", 150));
-        h4.addAppliance(new Appliance("Lampe", 40));
+        h4.addAppliance(new Computer("MacBook", 150));
+
+        // Ici je crée un objet à la volée qui implémente directement IAppliance
+        // sans passer par la classe abstraite Appliance !
+        h4.addAppliance(new IAppliance() {
+            @Override
+            public String getName() { return "Compteur Linky"; }
+
+            @Override
+            public int getPower() { return 10; }
+
+            @Override
+            public int getIconResId() { return android.R.drawable.ic_lock_idle_charging; }
+        });
         habitats.add(h4);
 
-        // Abel (1 équipement)
-        Habitat h5 = new Habitat(5, "Abel Fresnel", 3, 25.0);
-        h5.addAppliance(new Appliance("Radio", 20));
-        habitats.add(h5);
-
-        // --- 2. CONFIGURATION DE LA LISTE ---
+        // CONFIGURATION LISTE
         ListView lvHabitats = findViewById(R.id.lv_habitats);
         HabitatAdapter adapter = new HabitatAdapter(this, habitats);
         lvHabitats.setAdapter(adapter);
 
-        // --- 3. GESTION DU CLIC -> OUVRIR LA DIALOG ---
         lvHabitats.setOnItemClickListener((parent, view, position, id) -> {
-            Habitat selectedHabitat = habitats.get(position);
-            showHabitatDetails(selectedHabitat); // On appelle notre méthode
+            showHabitatDetails(habitats.get(position));
         });
     }
 
-    /**
-     * Méthode pour afficher la Boîte de Dialogue (Popup)
-     */
     private void showHabitatDetails(Habitat habitat) {
-        // 1. On prépare le texte à afficher
-        StringBuilder message = new StringBuilder();
-        message.append("📍 Étage : ").append(habitat.getFloorNumber()).append("\n");
-        message.append("📐 Surface : ").append(habitat.getArea()).append(" m²\n\n");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        android.view.View view = getLayoutInflater().inflate(R.layout.dialog_habitat_details, null);
 
-        message.append("🔌 Liste des équipements :\n");
-        message.append("-------------------------\n");
+        // Récupération des vues (inchangé)
+        android.widget.TextView tvTitle = view.findViewById(R.id.tv_dialog_title);
+        android.widget.TextView tvArea = view.findViewById(R.id.tv_dialog_area);
+        android.widget.TextView tvFloor = view.findViewById(R.id.tv_dialog_floor);
+        android.widget.LinearLayout llList = view.findViewById(R.id.ll_dialog_appliances);
+        android.widget.Button btnClose = view.findViewById(R.id.btn_close_dialog);
 
-        // On liste chaque appareil avec sa conso
-        for (Appliance app : habitat.getAppliances()) {
-            message.append("• ").append(app.getName())
-                    .append(" (Conso : ").append(app.getPower()).append(" W)\n");
+        // Remplissage
+        tvTitle.setText(habitat.getResidentName());
+        tvArea.setText("📐 " + habitat.getArea() + " m²");
+        tvFloor.setText("📍 Étage : " + habitat.getFloorNumber());
+
+        // Tri sur la liste d'interface IAppliance
+        List<IAppliance> sortedList = new ArrayList<>(habitat.getAppliances());
+        Collections.sort(sortedList, (a, b) -> b.getPower() - a.getPower());
+
+        llList.removeAllViews();
+
+        for (int i = 0; i < sortedList.size(); i++) {
+            IAppliance app = sortedList.get(i); // On manipule l'interface IAppliance
+
+            // Création de la ligne (inchangé)
+            android.widget.LinearLayout row = new android.widget.LinearLayout(this);
+            row.setOrientation(android.widget.LinearLayout.HORIZONTAL);
+            row.setGravity(android.view.Gravity.CENTER_VERTICAL);
+            row.setPadding(0, 8, 0, 8);
+
+            // Couleurs
+            int color;
+            if (i == 0) color = android.graphics.Color.RED;
+            else if (i == sortedList.size() - 1) color = android.graphics.Color.parseColor("#4CAF50");
+            else color = android.graphics.Color.DKGRAY;
+
+            // Icône
+            android.widget.ImageView icon = new android.widget.ImageView(this);
+            int size = (int) (24 * getResources().getDisplayMetrics().density);
+            android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(size, size);
+            params.setMargins(0, 0, 16, 0);
+            icon.setLayoutParams(params);
+
+            icon.setImageResource(app.getIconResId()); // Appel via l'interface
+            icon.setColorFilter(color);
+
+            // Texte
+            android.widget.TextView tvApp = new android.widget.TextView(this);
+            tvApp.setText(app.getName() + " (" + app.getPower() + " W)");
+            tvApp.setTextSize(16);
+            tvApp.setTextColor(color);
+
+            row.addView(icon);
+            row.addView(tvApp);
+            llList.addView(row);
         }
 
-        // 2. On construit la Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Détails : " + habitat.getResidentName()); // Titre
-        builder.setMessage(message.toString());                     // Le texte qu'on a préparé
-        builder.setIcon(android.R.drawable.ic_dialog_info);         // Petite icône (facultatif)
-
-        // Bouton pour fermer
-        builder.setPositiveButton("OK", null);
-
-        // 3. On l'affiche
-        builder.show();
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+        dialog.show();
     }
 }

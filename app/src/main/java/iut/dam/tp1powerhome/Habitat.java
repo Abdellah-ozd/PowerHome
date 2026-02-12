@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import iut.dam.tp1powerhome.appliance.IAppliance;
+
 public class Habitat implements Serializable {
     private int id;
     private String residentName;
     private int floor;
-    private double area; // La variable est là
-    private List<Appliance> appliances;
+    private double area;
+
+    // CHANGEMENT : On utilise l'interface IAppliance
+    private List<IAppliance> appliances;
 
     public Habitat(int id, String residentName, int floor, double area) {
         this.id = id;
@@ -19,37 +23,18 @@ public class Habitat implements Serializable {
         this.appliances = new ArrayList<>();
     }
 
-    // Ajoute un équipement
-    public void addAppliance(Appliance appliance) {
+    // On accepte n'importe quoi qui respecte le contrat IAppliance
+    public void addAppliance(IAppliance appliance) {
         this.appliances.add(appliance);
     }
 
     // --- GETTERS ---
+    public String getResidentName() { return residentName; }
+    public int getFloor() { return floor; }
+    public double getArea() { return area; }
+    public List<IAppliance> getAppliances() { return appliances; } // Retourne des IAppliance
+    public String getFloorNumber() { return String.valueOf(floor); }
 
-    public String getResidentName() {
-        return residentName;
-    }
-
-    public int getFloor() {
-        return floor;
-    }
-
-    // 👇 C'EST LUI QU'IL MANQUAIT ! 👇
-    public double getArea() {
-        return area;
-    }
-
-    // Utilisée par l'adaptateur pour la boucle des icônes
-    public List<Appliance> getAppliances() {
-        return appliances;
-    }
-
-    // Pour afficher juste le chiffre de l'étage
-    public String getFloorNumber() {
-        return String.valueOf(floor);
-    }
-
-    // Pour afficher "4 équipements"
     public String getApplianceCountLabel() {
         int count = appliances.size();
         return count + " équipement" + (count > 1 ? "s" : "");
