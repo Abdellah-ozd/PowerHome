@@ -59,7 +59,7 @@ public class HabitatAdapter extends ArrayAdapter<Habitat> {
             // Limitation Icônes +X
             iconsContainer.removeAllViews();
             List<IAppliance> apps = habitat.getAppliances();
-            int maxIcons = 8;
+            int maxIcons = 7;
 
             for (int i = 0; i < apps.size(); i++) {
                 if (i < maxIcons) {
