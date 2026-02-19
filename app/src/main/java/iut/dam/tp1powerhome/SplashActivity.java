@@ -3,7 +3,6 @@ package iut.dam.tp1powerhome;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,6 +38,6 @@ public class SplashActivity extends AppCompatActivity {
         };
 
         // On déclenche le chrono : 2000 millisecondes = 2 secondes
-        new Handler().postDelayed(runnable, 2000);
+        new Handler().postDelayed(runnable, 500);
     }
 }
