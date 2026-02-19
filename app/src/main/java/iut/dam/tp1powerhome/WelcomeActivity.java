@@ -34,11 +34,6 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
         drawerDL.addDrawerListener(toggle);
         toggle.syncState(); // Indispensable pour voir le hamburger !
 
-        // 3. Activation du bouton menu dans la barre
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
 
         // 4. On branche l'écouteur de clics pour le menu
         navNV.setNavigationItemSelectedListener(this);
@@ -46,7 +41,7 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
         // 5. Affichage du fragment par défaut au lancement
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fl_container, new HabitatsFragment())
+                    .replace(R.id.fl_container, new ListHabitatsFragment())
                     .commit();
             // Optionnel : mettre l'item "Habitats" en surbrillance dans le menu
             navNV.setCheckedItem(R.id.nav_habitats);
@@ -66,13 +61,24 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-
+        //Fragment habitats
         if (id == R.id.nav_habitats) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fl_container, new HabitatsFragment())
+                    .replace(R.id.fl_container, new ListHabitatsFragment())
                     .commit();
         }
-        // Tu pourras ajouter tes autres fragments ici plus tard (Paramètres, etc.)
+        //Fragment parametres
+        else if (id == R.id.nav_settings) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, new ParametresFragment())
+                    .commit();
+        }
+        //Fragment myHabitat
+        else if (id == R.id.nav_my_habitat) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, new MyHabitatFragment())
+                    .commit();
+        }
 
         // On ferme le menu après le clic
         drawerDL.closeDrawer(GravityCompat.START);

@@ -1,7 +1,8 @@
 <resources>
+    <!--Splash Activity-->
     <string name="app_name">TP1PowerHome</string>
     <string name="splash_footer">Par AbdSoftware</string>
-
+    <!--Login Activity-->
     <string name="login_toolbar_title">Connectez-vous</string>
     <string name="login_title">Identifiez-vous</string>
     <string name="login_hint_email">E-mail</string>
@@ -19,7 +20,7 @@
     <string name="appliance_count_singular">%1$d équipement</string>
     <string name="appliance_count_plural">%1$d équipements</string>
     <string name="no_appliance">Aucun équipement</string>
-
+    <!--Dialog box-->
     <string name="dialog_area_format">📐 %1$.1f m²</string>
     <string name="dialog_floor_format">📍 Étage : %1$d</string>
     <string name="dialog_floor_rdc">📍 Rez-de-chaussée</string>
@@ -27,7 +28,7 @@
     <string name="dialog_list_title">Détail des équipements :</string>
     <string name="dialog_btn_close">Fermer</string>
     <string name="appliance_detail_format">%1$s (%2$d W)</string>
-
+    <!--Devices-->
     <string name="device_fridge">Frigo</string>
     <string name="device_tv">Télévision</string>
     <string name="device_game_console">Console</string>
@@ -44,6 +45,7 @@
     <string name="open">Ouvrir</string>
     <string name="close">Fermer</string>
 
+    <!--Nav Menu-->
     <string name="menu_habitats">Habitats</string>
     <string name="menu_my_habitat">Mon Habitat</string>
     <string name="menu_settings">Paramètres</string>
