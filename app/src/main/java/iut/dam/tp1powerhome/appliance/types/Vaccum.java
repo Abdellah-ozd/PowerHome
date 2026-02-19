@@ -1,14 +1,10 @@
 package iut.dam.tp1powerhome.appliance.types;
-
 import iut.dam.tp1powerhome.appliance.Appliance;
 
 public class Vaccum extends Appliance {
-    public Vaccum(String name, int power) {
-        super(name, power);
+    public Vaccum(int labelResId, String customName, int power) {
+        super(labelResId, customName, power);
     }
-
     @Override
-    public int getIconResId() {
-        return android.R.drawable.ic_menu_search; // 🔍
-    }
+    public int getIconResId() { return android.R.drawable.ic_menu_directions; }
 }

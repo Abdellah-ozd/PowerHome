@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TPPowerHome</string>
+    <string name="app_name">TP1PowerHome</string>
     <string name="splash_footer">De AbdSoftware</string>
 
     <string name="login_toolbar_title">Iniciar sesión</string>
@@ -27,4 +27,17 @@
     <string name="dialog_list_title">Detalles de los equipos:</string>
     <string name="dialog_btn_close">Cerrar</string>
     <string name="appliance_detail_format">%1$s (%2$d W)</string>
+
+    <string name="device_fridge">Nevera</string>
+    <string name="device_tv">Televisión</string>
+    <string name="device_game_console">Consola</string>
+    <string name="device_coffee_machine">Cafetera</string>
+    <string name="device_oven">Horno</string>
+    <string name="device_lamp">Lámpara</string>
+    <string name="device_pc">Ordenador</string>
+    <string name="device_microwave">Microondas</string>
+    <string name="device_heater">Calefactor</string>
+    <string name="device_washing_machine">Lavadora</string>
+    <string name="device_dishwasher">Lavavajillas</string>
+    <string name="device_vaccum">Aspiradora</string>
 </resources>

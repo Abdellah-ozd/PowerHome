@@ -1,14 +1,10 @@
 package iut.dam.tp1powerhome.appliance.types;
-
 import iut.dam.tp1powerhome.appliance.Appliance;
 
 public class CoffeeMachine extends Appliance {
-    public CoffeeMachine(String name, int power) {
-        super(name, power);
+    public CoffeeMachine(int labelResId, String customName, int power) {
+        super(labelResId, customName, power);
     }
-
     @Override
-    public int getIconResId() {
-        return android.R.drawable.ic_menu_compass; // 🧭 (Un rond...)
-    }
+    public int getIconResId() { return android.R.drawable.ic_menu_gallery; }
 }

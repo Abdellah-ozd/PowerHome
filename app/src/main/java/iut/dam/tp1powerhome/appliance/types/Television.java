@@ -1,14 +1,10 @@
 package iut.dam.tp1powerhome.appliance.types;
-
 import iut.dam.tp1powerhome.appliance.Appliance;
 
 public class Television extends Appliance {
-    public Television(String name, int power) {
-        super(name, power);
+    public Television(int labelResId, String customName, int power) {
+        super(labelResId, customName, power);
     }
-
     @Override
-    public int getIconResId() {
-        return android.R.drawable.ic_menu_slideshow; // 📺
-    }
+    public int getIconResId() { return android.R.drawable.ic_menu_view; }
 }

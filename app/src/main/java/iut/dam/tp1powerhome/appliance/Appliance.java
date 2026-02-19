@@ -1,24 +1,17 @@
 package iut.dam.tp1powerhome.appliance;
 
-// Elle implémente IAppliance mais reste abstraite (on ne peut pas faire new Appliance())
 public abstract class Appliance implements IAppliance {
-    protected String name;
-    protected int power;
+    private String customName;
+    private int labelResId;
+    private int power;
 
-    public Appliance(String name, int power) {
-        this.name = name;
+    public Appliance(int labelResId, String customName, int power) {
+        this.labelResId = labelResId;
+        this.customName = customName;
         this.power = power;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getPower() {
-        return power;
-    }
-
-    // On ne définit PAS getIconResId() ici, on laisse les enfants (TV, Frigo...) le faire.
+    @Override public String getCustomName() { return customName; }
+    @Override public int getLabelResId() { return labelResId; }
+    @Override public int getPower() { return power; }
 }

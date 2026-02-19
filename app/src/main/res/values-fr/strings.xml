@@ -23,8 +23,21 @@
     <string name="dialog_area_format">📐 %1$.1f m²</string>
     <string name="dialog_floor_format">📍 Étage : %1$d</string>
     <string name="dialog_floor_rdc">📍 Rez-de-chaussée</string>
-    <string name="dialog_total_power_format">⚡ Total: %1$d W</string>
+    <string name="dialog_total_power_format">⚡ Total : %1$d W</string>
     <string name="dialog_list_title">Détail des équipements :</string>
     <string name="dialog_btn_close">Fermer</string>
     <string name="appliance_detail_format">%1$s (%2$d W)</string>
+
+    <string name="device_fridge">Frigo</string>
+    <string name="device_tv">Télévision</string>
+    <string name="device_game_console">Console</string>
+    <string name="device_coffee_machine">Cafetière</string>
+    <string name="device_oven">Four</string>
+    <string name="device_lamp">Lampe</string>
+    <string name="device_pc">PC</string>
+    <string name="device_microwave">Micro-ondes</string>
+    <string name="device_heater">Chauffage</string>
+    <string name="device_washing_machine">Lave-linge</string>
+    <string name="device_dishwasher">Lave-vaisselle</string>
+    <string name="device_vaccum">Aspirateur</string>
 </resources>
