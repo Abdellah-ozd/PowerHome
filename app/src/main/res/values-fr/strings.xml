@@ -40,4 +40,11 @@
     <string name="device_washing_machine">Lave-linge</string>
     <string name="device_dishwasher">Lave-vaisselle</string>
     <string name="device_vaccum">Aspirateur</string>
+
+    <string name="open">Ouvrir</string>
+    <string name="close">Fermer</string>
+
+    <string name="menu_habitats">Habitats</string>
+    <string name="menu_my_habitat">Mon Habitat</string>
+    <string name="menu_settings">Paramètres</string>
 </resources>

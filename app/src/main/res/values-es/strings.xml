@@ -40,4 +40,12 @@
     <string name="device_washing_machine">Lavadora</string>
     <string name="device_dishwasher">Lavavajillas</string>
     <string name="device_vaccum">Aspiradora</string>
+
+    <string name="open">Abrir</string>
+    <string name="close">Fermar</string>
+
+    <string name="menu_habitats">Habitats</string>
+    <string name="menu_my_habitat">Mon Habitat</string>
+    <string name="menu_settings">Paramètres</string>
+
 </resources>
