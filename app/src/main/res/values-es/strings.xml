@@ -1,6 +1,6 @@
 <resources>
     <!--Splash Activity-->
-    <string name="app_name">TP1PowerHome</string>
+    <string name="app_name">TPPowerHome</string>
     <string name="splash_footer">De AbdSoftware</string>
     <!--Login Activity-->
     <string name="login_toolbar_title">Iniciar sesión</string>
