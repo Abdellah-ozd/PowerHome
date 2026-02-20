@@ -1,5 +1,6 @@
 package iut.dam.tp1powerhome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -22,28 +23,27 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        // 1. Setup de la Toolbar (la barre du haut)
+        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // 2. Setup du Drawer et du bouton Hamburger
+        // Drawer
         drawerDL = findViewById(R.id.drawerDL);
         NavigationView navNV = findViewById(R.id.nv_navigation);
 
         toggle = new ActionBarDrawerToggle(this, drawerDL, toolbar, R.string.open, R.string.close);
         drawerDL.addDrawerListener(toggle);
-        toggle.syncState(); // Indispensable pour voir le hamburger !
+        toggle.syncState(); // Synchronise l'état du drawer
 
 
-        // 4. On branche l'écouteur de clics pour le menu
+        // Clic listener pour le menu du drawer
         navNV.setNavigationItemSelectedListener(this);
 
-        // 5. Affichage du fragment par défaut au lancement
+        // Fragment par défaut au lancement
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fl_container, new ListHabitatsFragment())
                     .commit();
-            // Optionnel : mettre l'item "Habitats" en surbrillance dans le menu
             navNV.setCheckedItem(R.id.nav_habitats);
         }
     }
@@ -57,11 +57,11 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
         return super.onOptionsItemSelected(item);
     }
 
-    // Logique de navigation
+    // Navigation du drawer
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        //Fragment habitats
+        //Fragment Listhabitats
         if (id == R.id.nav_habitats) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fl_container, new ListHabitatsFragment())
@@ -79,8 +79,13 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
                     .replace(R.id.fl_container, new MyHabitatFragment())
                     .commit();
         }
-
-        // On ferme le menu après le clic
+        if (id == R.id.nav_logout) {
+            // Départ vers loginactivtiy
+            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+            // Tuer l'activity
+            finish();
+        }
         drawerDL.closeDrawer(GravityCompat.START);
         return true;
     }

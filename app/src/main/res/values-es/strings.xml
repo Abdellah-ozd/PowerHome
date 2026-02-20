@@ -45,8 +45,13 @@
     <string name="open">Abrir</string>
     <string name="close">Fermar</string>
     <!--Nav Menu-->
-    <string name="menu_habitats">Habitats</string>
-    <string name="menu_my_habitat">Mon Habitat</string>
-    <string name="menu_settings">Paramètres</string>
+    <string name="menu_habitats">Habitantes</string>
+    <string name="menu_my_habitat">Esto Habitos</string>
+    <string name="menu_settings">Parametar</string>
+    <string name="menu_log_out">Deconnectar</string>
+
+    <string name="setting_darkmode">Darko modar</string>
+    <string name="setting_notification">Notificationes pushar</string>
+
 
 </resources>

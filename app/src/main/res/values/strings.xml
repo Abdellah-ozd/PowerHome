@@ -49,4 +49,8 @@
     <string name="menu_habitats">Habitats</string>
     <string name="menu_my_habitat">Mon Habitat</string>
     <string name="menu_settings">Paramètres</string>
+    <string name="menu_log_out">Log out</string>
+
+    <string name="setting_darkmode">Dark mode</string>
+    <string name="setting_notification">Notifications push</string>
 </resources>
