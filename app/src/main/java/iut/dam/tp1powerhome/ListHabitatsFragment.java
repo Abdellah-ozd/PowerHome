@@ -22,7 +22,7 @@ import java.util.List;
 import iut.dam.tp1powerhome.appliance.IAppliance;
 import iut.dam.tp1powerhome.appliance.types.*;
 
-public class HabitatsFragment extends Fragment {
+public class ListHabitatsFragment extends Fragment {
 
     private static final int POWER_THRESHOLD_DANGER = 6000;
     private static final int INDIVIDUAL_THRESHOLD = 1500;
@@ -31,7 +31,7 @@ public class HabitatsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // 1. créer la vue xml
-        View view = inflater.inflate(R.layout.fragment_habitats, container, false);
+        View view = inflater.inflate(R.layout.fragment_listhabitats, container, false);
 
         List<Habitat> habitats = new ArrayList<>();
 
