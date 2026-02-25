@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Paramètres"
+        android:text="@string/title_setting_frag"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="30dp"/>
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Langue de l'application"
+        android:text="@string/setting_language"
         android:textSize="18sp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"/>
@@ -54,6 +54,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="English 🇬🇧" />
+
+        <RadioButton
+            android:id="@+id/rb_es"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Español 🇪🇸" />
     </RadioGroup>
 
     <Space

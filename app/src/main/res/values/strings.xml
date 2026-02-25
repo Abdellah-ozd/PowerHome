@@ -46,11 +46,14 @@
     <string name="close">Close menu</string>
 
     <!--Nav Menu-->
-    <string name="menu_habitats">Habitats</string>
-    <string name="menu_my_habitat">Mon Habitat</string>
-    <string name="menu_settings">Paramètres</string>
+    <string name="menu_habitats">Housings</string>
+    <string name="menu_my_habitat">My Housing</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_log_out">Log out</string>
 
+    <!--Settings fragment-->
     <string name="setting_darkmode">Dark mode</string>
     <string name="setting_notification">Notifications push</string>
+    <string name="setting_language">Application language</string>
+    <string name="title_setting_frag">Settings</string>
 </resources>

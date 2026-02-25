@@ -68,30 +68,38 @@ public class ParametresFragment extends Fragment {
             tvVersion.setText("Version : Inconnue");
         }
 
-        // --- LA GESTION DE LA LANGUE (MASTERCLASS) ---
+// --- LA GESTION DE LA LANGUE (TRILINGUE) ---
         android.widget.RadioGroup rgLanguage = view.findViewById(R.id.rg_language);
-        android.widget.RadioButton rbFr = view.findViewById(R.id.rb_fr);
         android.widget.RadioButton rbEn = view.findViewById(R.id.rb_en);
+        android.widget.RadioButton rbFr = view.findViewById(R.id.rb_fr);
+        android.widget.RadioButton rbEs = view.findViewById(R.id.rb_es);
 
-        // On regarde quelle langue est actuellement activée dans le tel pour cocher le bon bouton
+        // On regarde quelle langue est actuellement activée
         String currentLang = androidx.appcompat.app.AppCompatDelegate.getApplicationLocales().toLanguageTags();
-        if (currentLang.contains("en")) {
-            rbEn.setChecked(true);
-        } else {
+        if (currentLang.contains("fr")) {
             rbFr.setChecked(true);
+        } else if (currentLang.contains("es")) {
+            rbEs.setChecked(true);
+        } else {
+            rbEn.setChecked(true); // Si c'est vide ou autre chose, c'est l'Anglais par défaut
         }
 
         // Quand tu cliques sur une des langues...
         rgLanguage.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_en) {
-                // On force l'appli en Anglais !
+                // Retour au default (Anglais)
                 androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
                         androidx.core.os.LocaleListCompat.forLanguageTags("en")
                 );
             } else if (checkedId == R.id.rb_fr) {
-                // On force l'appli en Français !
+                // Mode Baguette
                 androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
                         androidx.core.os.LocaleListCompat.forLanguageTags("fr")
+                );
+            } else if (checkedId == R.id.rb_es) {
+                // Mode Tapas
+                androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
+                        androidx.core.os.LocaleListCompat.forLanguageTags("es")
                 );
             }
         });

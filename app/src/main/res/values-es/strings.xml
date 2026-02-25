@@ -50,8 +50,10 @@
     <string name="menu_settings">Parametar</string>
     <string name="menu_log_out">Deconnectar</string>
 
+    <!--Settings fragment-->
     <string name="setting_darkmode">Darko modar</string>
     <string name="setting_notification">Notificationes pushar</string>
-
+    <string name="setting_language">Applicacion idioma</string>
+    <string name="title_setting_frag">Parametros</string>
 
 </resources>

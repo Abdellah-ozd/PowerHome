@@ -51,6 +51,9 @@
     <string name="menu_settings">Paramètres</string>
     <string name="menu_log_out">Déconnexion</string>
 
+    <!--Settings fragments-->
     <string name="setting_darkmode">Mode sombre</string>
     <string name="setting_notification">Notifications push</string>
+    <string name="setting_language">Language de l\'application</string>
+    <string name="title_setting_frag">Paramètres</string>
 </resources>
