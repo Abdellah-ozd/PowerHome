@@ -37,23 +37,45 @@ public class MyHabitatFragment extends Fragment {
     private void loadData() {
         String urlString = "http://10.0.2.2/powerhome/getHabitats.php";
 
+        // Appel au serveur XAMPP
         Ion.with(this)
                 .load(urlString)
                 .asString()
-                .setCallback(new FutureCallback<String>() {
+                .withResponse() // Récupére la reponse pour gérer les erreurs
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<String>>() {
                     @Override
-                    public void onCompleted(Exception e, String result) {
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
+                        // 1. Gestion des gros crashs réseau (ex: pas de wifi, XAMPP éteint)
                         if (e != null) {
                             Log.e("API_POWERHOME", "ERREUR DE CONNEXION : ", e);
                             return;
                         }
 
-                        Log.d("API_POWERHOME", "JSON REÇU : " + result);
+                        // 2. Le contrôle de la douane (HTTP STATUS CODE)
+                        if (response != null) {
+                            int code = response.getHeaders().code();
+                            Log.d("API_POWERHOME", "CODE HTTP REÇU : " + code);
 
-                        List<Habitat> maListeDHabitats = Habitat.getListFromJson(result);
+                            if (code == 200) {
+                                // BINGO ! Le code 200 veut dire que tout est nickel ✅
+                                String result = response.getResult(); // On extrait le vrai texte JSON du colis
+                                Log.d("API_POWERHOME", "JSON REÇU : " + result);
 
-                        adapter = new HabitatAdapter(getContext(), maListeDHabitats);
-                        rvHabitats.setAdapter(adapter);
+                                // On traduit le texte en objets Java
+                                List<Habitat> maListeDHabitats = Habitat.getListFromJson(result);
+
+                                // On branche l'Adapter
+                                adapter = new HabitatAdapter(getContext(), maListeDHabitats);
+                                rvHabitats.setAdapter(adapter);
+
+                            } else if (code >= 400 && code < 500) {
+                                // Erreur de ton côté (mauvaise URL, t'es pas autorisé...)
+                                Log.e("API_POWERHOME", "EMBROUILLE CLIENT (Erreur " + code + ")");
+                            } else if (code >= 500) {
+                                // Erreur côté serveur (Ton PHP a craché)
+                                Log.e("API_POWERHOME", "LE SERVEUR EST EN PLS (Erreur " + code + ")");
+                            }
+                        }
                     }
                 });
     }
