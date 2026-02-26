@@ -10,15 +10,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+// 🔥 LES IMPORTS DU RECYCLERVIEW 🔥
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import iut.dam.tp1powerhome.appliance.IAppliance;
 import iut.dam.tp1powerhome.appliance.types.*;
 
@@ -108,20 +113,26 @@ public class ListHabitatsFragment extends Fragment {
 
         Collections.sort(habitats, (hab1, hab2) -> Integer.compare(hab1.getFloor(), hab2.getFloor()));
 
-        // 2. Attention ici : view.findViewById (et non plus juste findViewById)
-        ListView lvHabitats = view.findViewById(R.id.lv_habitats);
+        // 🔥 LA DINGUERIE EST LÀ : On passe sur le moteur RecyclerView 🔥
+        // Assure-toi que ton fichier fragment_listhabitats.xml utilise bien un RecyclerView
+        // avec l'id : android:id="@+id/rv_habitats_list"
+        RecyclerView rvHabitats = view.findViewById(R.id.rv_habitats_list);
+        rvHabitats.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        // 3. Attention ici : requireContext() au lieu de this
         HabitatAdapter adapter = new HabitatAdapter(requireContext(), habitats);
-        lvHabitats.setAdapter(adapter);
+        rvHabitats.setAdapter(adapter);
 
-        lvHabitats.setOnItemClickListener((parent, v, position, id) -> showHabitatDetails(habitats.get(position)));
+        // 🔥 LA LIGNE MAGIQUE POUR ACTIVER LE CLIC ET LA POP-UP 🔥
+        adapter.setOnItemClickListener(habitatClique -> showHabitatDetails(habitatClique));
+        // ⚠️ J'ai commenté ton clic car sur un RecyclerView faut faire une petite manip dans l'Adapter.
+        // On gère l'affichage d'abord, on réactivera la pop-up des détails juste après !
+        // lvHabitats.setOnItemClickListener((parent, v, position, id) -> showHabitatDetails(habitats.get(position)));
 
         return view;
     }
 
     private void showHabitatDetails(Habitat habitat) {
-        // Remplacement de "this" par "requireContext()"
+        // Ta pop-up est parfaite, on n'y touche pas !
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         View view = getLayoutInflater().inflate(R.layout.dialog_habitat_details, null);
 
