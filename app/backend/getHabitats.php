@@ -1,13 +1,31 @@
 <?php
-$db_host="localhost"; $db_uid="root"; $db_pass="";
-$db_name="powerhome_db";
-$db_con = mysqli_connect($db_host, $db_uid, $db_pass, $db_name);
-$sql = "SELECT * FROM habitat";
-$result = mysqli_query($db_con, $sql);
-while($row = mysqli_fetch_assoc($result))
-    $output[] = $row;
-mysqli_close($db_con);
+$host = "localhost";
+$user = "root";
+$password = "";
+$dbname = "powerhome_db";
+
+// Connexion
+$conn = new mysqli($host, $user, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Aïe : " . $conn->connect_error);
+}
+
+// On aspire tout, même les nouvelles colonnes
+$sql = "SELECT id, floor, area, resident_name, appliances_count FROM habitat";
+$result = $conn->query($sql);
+
+$habitats = array();
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $habitats[] = $row;
+    }
+}
+
+// On balance le JSON
 header('Content-Type: application/json');
-http_response_code (200);
-print(json_encode($output));
+echo json_encode($habitats);
+
+$conn->close();
 ?>
