@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,12 @@ public class MyHabitatFragment extends Fragment {
         rvHabitats.setLayoutManager(new LinearLayoutManager(getContext()));
 
         loadData();
+
+        Button btnAdd = view.findViewById(R.id.btn_add_habitat);
+        btnAdd.setOnClickListener(v -> {
+            ajouterHabitatTest("Test", 9, 88.5, 4);
+        });
+
         return view;
     }
 
@@ -75,6 +82,39 @@ public class MyHabitatFragment extends Fragment {
                                 // Erreur côté serveur (Ton PHP a craché)
                                 Log.e("API_POWERHOME", "LE SERVEUR EST EN PLS (Erreur " + code + ")");
                             }
+                        }
+                    }
+                });
+    }
+
+    // Envoyer des données
+    private void ajouterHabitatTest(String nom, int etage, double surface, int nbEquipements) {
+
+        String urlString = "http://10.0.2.2/powerhome/addHabitat.php" +
+                "?floor=" + etage +
+                "&area=" + surface +
+                "&resident_name=" + android.net.Uri.encode(nom) +
+                "&appliances_count=" + nbEquipements;
+
+        Ion.with(this)
+                .load(urlString)
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
+                        if (e != null) {
+                            Log.e("API_POWERHOME", "Erreur : ", e);
+                            return;
+                        }
+
+                        if (response != null && response.getHeaders().code() == 200) {
+                            Log.d("API_POWERHOME", "Locataire ajouté en BDD");
+
+                            // Rechargement de la liste
+                            loadData();
+                        } else {
+                            Log.e("API_POWERHOME", "Erreur lors de l'ajout Code : " + (response != null ? response.getHeaders().code() : "inconnu"));
                         }
                     }
                 });
