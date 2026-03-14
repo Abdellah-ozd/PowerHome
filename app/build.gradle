@@ -38,4 +38,7 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    // TP5 :
+    implementation libs.ion
+    implementation libs.gson
 }
