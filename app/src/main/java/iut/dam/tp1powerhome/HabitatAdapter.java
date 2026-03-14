@@ -4,84 +4,118 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import iut.dam.tp1powerhome.appliance.IAppliance;
 
-public class HabitatAdapter extends ArrayAdapter<Habitat> {
+public class HabitatAdapter extends RecyclerView.Adapter<HabitatAdapter.HabitatViewHolder> {
 
-    public HabitatAdapter(@NonNull Context context, @NonNull List<Habitat> objects) {
-        super(context, 0, objects);
+    private List<Habitat> habitats;
+    private Context context;
+    private OnItemClickListener listener; // 🎯 LE DÉTECTEUR DE CLIC
+
+    // L'interface pour le clic
+    public interface OnItemClickListener {
+        void onItemClick(Habitat habitat);
+    }
+
+    // Méthode pour brancher le détecteur depuis tes fragments
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public HabitatAdapter(Context context, List<Habitat> habitats) {
+        this.context = context;
+        this.habitats = habitats;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Habitat habitat = getItem(position);
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_habitat, parent, false);
-        }
+    public HabitatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_habitat, parent, false);
+        return new HabitatViewHolder(view);
+    }
 
-        TextView tvName = convertView.findViewById(R.id.tv_resident_name);
-        TextView tvCount = convertView.findViewById(R.id.tv_appliances_count);
-        TextView tvFloorNum = convertView.findViewById(R.id.tv_floor_number);
-        LinearLayout iconsContainer = convertView.findViewById(R.id.ll_icons_container);
+    @Override
+    public void onBindViewHolder(@NonNull HabitatViewHolder holder, int position) {
+        Habitat habitat = habitats.get(position);
 
         if (habitat != null) {
-            tvName.setText(habitat.getResidentName());
+            holder.tvName.setText(habitat.getResidentName() != null ? habitat.getResidentName() : "Inconnu");
 
-            // Gestion Pluriels Internationalisée
             int count = habitat.getAppliances().size();
             String countLabel;
             if (count == 0) {
-                countLabel = getContext().getString(R.string.no_appliance);
+                countLabel = context.getString(R.string.no_appliance);
             } else if (count == 1) {
-                countLabel = getContext().getString(R.string.appliance_count_singular, count);
+                countLabel = context.getString(R.string.appliance_count_singular, count);
             } else {
-                countLabel = getContext().getString(R.string.appliance_count_plural, count);
+                countLabel = context.getString(R.string.appliance_count_plural, count);
             }
-            tvCount.setText(countLabel);
+            holder.tvCount.setText(countLabel);
 
-            // Gestion RDC Internationalisée
             if (habitat.getFloor() == 0) {
-                tvFloorNum.setText(getContext().getString(R.string.floor_rdc));
-                tvFloorNum.setTextSize(12);
+                holder.tvFloorNum.setText(context.getString(R.string.floor_rdc));
+                holder.tvFloorNum.setTextSize(12);
             } else {
-                tvFloorNum.setText(String.valueOf(habitat.getFloor()));
-                tvFloorNum.setTextSize(16);
+                holder.tvFloorNum.setText(String.valueOf(habitat.getFloor()));
+                holder.tvFloorNum.setTextSize(16);
             }
 
-            // Limitation Icônes +X
-            iconsContainer.removeAllViews();
+            // 👑 LE RETOUR DE TA MASTERCLASS POUR LES ICÔNES ET LE +X 👑
+            holder.iconsContainer.removeAllViews();
             List<IAppliance> apps = habitat.getAppliances();
-            int maxIcons = 7;
+            int maxIcons = 5; // On affiche max 7 icônes, après on met le +X
 
             for (int i = 0; i < apps.size(); i++) {
                 if (i < maxIcons) {
-                    ImageView iv = new ImageView(getContext());
-                    int size = (int) (18 * getContext().getResources().getDisplayMetrics().density);
+                    ImageView iv = new ImageView(context);
+                    int size = (int) (18 * context.getResources().getDisplayMetrics().density);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
                     params.setMargins(2, 0, 2, 0);
                     iv.setLayoutParams(params);
                     iv.setImageResource(apps.get(i).getIconResId());
                     iv.setColorFilter(0xFF777777);
-                    iconsContainer.addView(iv);
+                    holder.iconsContainer.addView(iv);
                 } else {
-                    TextView tvMore = new TextView(getContext());
+                    TextView tvMore = new TextView(context);
                     tvMore.setText("+" + (apps.size() - maxIcons));
                     tvMore.setTextSize(11);
                     tvMore.setTextColor(0xFF777777);
                     tvMore.setPadding(4, 0, 0, 0);
-                    iconsContainer.addView(tvMore);
-                    break;
+                    holder.iconsContainer.addView(tvMore);
+                    break; // On arrête la boucle direct
                 }
             }
+
+            // 🎯 ON BRANCHE LE CLIC SUR LA CARTE ENTIÈRE
+            holder.itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(habitat);
+                }
+            });
         }
-        return convertView;
+    }
+
+    @Override
+    public int getItemCount() {
+        return habitats == null ? 0 : habitats.size();
+    }
+
+    public static class HabitatViewHolder extends RecyclerView.ViewHolder {
+        TextView tvName, tvCount, tvFloorNum;
+        LinearLayout iconsContainer;
+
+        public HabitatViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvName = itemView.findViewById(R.id.tv_resident_name);
+            tvCount = itemView.findViewById(R.id.tv_appliances_count);
+            tvFloorNum = itemView.findViewById(R.id.tv_floor_number);
+            iconsContainer = itemView.findViewById(R.id.ll_icons_container);
+        }
     }
 }

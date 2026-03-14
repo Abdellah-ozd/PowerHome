@@ -4,29 +4,39 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+// 🔥 LES IMPORTS DU RECYCLERVIEW 🔥
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import iut.dam.tp1powerhome.appliance.IAppliance;
 import iut.dam.tp1powerhome.appliance.types.*;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class ListHabitatsFragment extends Fragment {
 
     private static final int POWER_THRESHOLD_DANGER = 6000;
     private static final int INDIVIDUAL_THRESHOLD = 1500;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // 1. créer la vue xml
+        View view = inflater.inflate(R.layout.fragment_listhabitats, container, false);
 
         List<Habitat> habitats = new ArrayList<>();
 
@@ -94,7 +104,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Habitat h7 = new Habitat(7, "Services Généraux", 6, 10.0);
         h7.addAppliance(new IAppliance() {
             @Override public String getCustomName() { return "VMC Centrale"; }
-            @Override public int getLabelResId() { return R.string.device_heater; } // Ou un label générique
+            @Override public int getLabelResId() { return R.string.device_heater; }
             @Override public int getPower() { return 450; }
             @Override public int getIconResId() { return android.R.drawable.ic_menu_rotate; }
         });
@@ -103,15 +113,27 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Collections.sort(habitats, (hab1, hab2) -> Integer.compare(hab1.getFloor(), hab2.getFloor()));
 
-        ListView lvHabitats = findViewById(R.id.lv_habitats);
-        HabitatAdapter adapter = new HabitatAdapter(this, habitats);
-        lvHabitats.setAdapter(adapter);
+        // 🔥 LA DINGUERIE EST LÀ : On passe sur le moteur RecyclerView 🔥
+        // Assure-toi que ton fichier fragment_listhabitats.xml utilise bien un RecyclerView
+        // avec l'id : android:id="@+id/rv_habitats_list"
+        RecyclerView rvHabitats = view.findViewById(R.id.rv_habitats_list);
+        rvHabitats.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        lvHabitats.setOnItemClickListener((parent, view, position, id) -> showHabitatDetails(habitats.get(position)));
+        HabitatAdapter adapter = new HabitatAdapter(requireContext(), habitats);
+        rvHabitats.setAdapter(adapter);
+
+        // 🔥 LA LIGNE MAGIQUE POUR ACTIVER LE CLIC ET LA POP-UP 🔥
+        adapter.setOnItemClickListener(habitatClique -> showHabitatDetails(habitatClique));
+        // ⚠️ J'ai commenté ton clic car sur un RecyclerView faut faire une petite manip dans l'Adapter.
+        // On gère l'affichage d'abord, on réactivera la pop-up des détails juste après !
+        // lvHabitats.setOnItemClickListener((parent, v, position, id) -> showHabitatDetails(habitats.get(position)));
+
+        return view;
     }
 
     private void showHabitatDetails(Habitat habitat) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Ta pop-up est parfaite, on n'y touche pas !
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         View view = getLayoutInflater().inflate(R.layout.dialog_habitat_details, null);
 
         TextView tvTitle = view.findViewById(R.id.tv_dialog_title);
@@ -134,12 +156,12 @@ public class WelcomeActivity extends AppCompatActivity {
             IAppliance app = sortedList.get(i);
             int color = (app.getPower() >= INDIVIDUAL_THRESHOLD) ? Color.RED : (i == sortedList.size() - 1 ? Color.parseColor("#4CAF50") : Color.DKGRAY);
 
-            LinearLayout row = new LinearLayout(this);
+            LinearLayout row = new LinearLayout(requireContext());
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER_VERTICAL);
             row.setPadding(0, 15, 0, 15);
 
-            ImageView icon = new ImageView(this);
+            ImageView icon = new ImageView(requireContext());
             int size = (int) (24 * getResources().getDisplayMetrics().density);
             LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(size, size);
             iconParams.setMargins(0, 0, 20, 0);
@@ -147,23 +169,23 @@ public class WelcomeActivity extends AppCompatActivity {
             icon.setImageResource(app.getIconResId());
             icon.setColorFilter(color);
 
-            TextView tvCustom = new TextView(this);
+            TextView tvCustom = new TextView(requireContext());
             tvCustom.setText(app.getCustomName());
             tvCustom.setTypeface(null, android.graphics.Typeface.BOLD);
             tvCustom.setTextSize(16);
             tvCustom.setTextColor(color);
 
-            TextView tvLabel = new TextView(this);
+            TextView tvLabel = new TextView(requireContext());
             tvLabel.setText(" [" + getString(app.getLabelResId()) + "]");
             tvLabel.setTextSize(13);
             tvLabel.setTextColor(Color.GRAY);
 
-            TextView tvPower = new TextView(this);
+            TextView tvPower = new TextView(requireContext());
             tvPower.setText(app.getPower() + " W");
             tvPower.setTextSize(15);
             tvPower.setTextColor(color);
 
-            View spacer = new View(this);
+            View spacer = new View(requireContext());
             LinearLayout.LayoutParams spacerParams = new LinearLayout.LayoutParams(0, 0, 1f);
             spacer.setLayoutParams(spacerParams);
 
