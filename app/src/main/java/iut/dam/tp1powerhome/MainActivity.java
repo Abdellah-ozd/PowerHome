@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Fragment Notifications
         else if (id == R.id.nav_notifications) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fl_container, new MyHabitatFragment())
+                    .replace(R.id.fl_container, new NotificationsFragment())
                     .commit();
         }
         if (id == R.id.nav_logout) {

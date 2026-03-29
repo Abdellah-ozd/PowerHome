@@ -59,4 +59,21 @@
     <string name="setting_notification">Notifications push</string>
     <string name="setting_language">Application language</string>
     <string name="title_setting_frag">Settings</string>
+
+    <string name="register_title">Create an account</string>
+    <string name="register_hint_name">Full Name</string>
+    <string name="register_hint_floor">Floor</string>
+    <string name="register_hint_area">Area (sqm)</string>
+    <string name="register_hint_pass_confirm">Confirm password</string>
+    <string name="register_already_account">Already have an account? </string>
+
+    <string name="notif_title">My Notifications 🔔</string>
+    <string name="notif_master">Allow notifications</string>
+    <string name="notif_alerts">Network alerts (Red)</string>
+    <string name="notif_reservations">Reservation reminders</string>
+    <string name="notif_ecocoins">New EcoCoins earned 💰</string>
+
+    <string name="setting_account_title">Account and Data</string>
+    <string name="setting_clear_cache">Clear application cache</string>
+    <string name="setting_delete_account">Delete my account</string>
 </resources>
