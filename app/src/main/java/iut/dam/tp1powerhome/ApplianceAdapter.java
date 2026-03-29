@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,32 +23,35 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
     @NonNull
     @Override
     public ApplianceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // On réutilise le layout des items de la dialog box ou un truc simple
-        View view = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, false);
+        // 🔥 MODIF 1 : On charge TA nouvelle carte stylée (item_appliance.xml)
+        View view = LayoutInflater.from(context).inflate(R.layout.item_appliance, parent, false);
         return new ApplianceViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ApplianceViewHolder holder, int position) {
         Appliance app = appliances.get(position);
+
+        // On injecte les données de la BDD dans la carte
         holder.tvName.setText(app.getNom());
         holder.tvPower.setText(app.getPuissanceWatts() + " W");
-        // On peut même mettre l'icône à gauche !
-        holder.imgIcon.setImageResource(app.getIconResId());
     }
 
     @Override
-    public int getItemCount() { return appliances == null ? 0 : appliances.size(); }
+    public int getItemCount() {
+        return appliances == null ? 0 : appliances.size();
+    }
 
+    // C'est ici qu'on fait le lien avec les éléments de ton XML
     public static class ApplianceViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPower;
-        ImageView imgIcon;
+
         public ApplianceViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(android.R.id.text1);
-            tvPower = itemView.findViewById(android.R.id.text2);
-            // On l'ajoute dynamiquement si on utilise un layout simple
-            imgIcon = new ImageView(itemView.getContext());
+
+            // 🔥 MODIF 2 : On utilise les VRAIS IDs qu'on a mis dans item_appliance.xml
+            tvName = itemView.findViewById(R.id.tv_appliance_name);
+            tvPower = itemView.findViewById(R.id.tv_appliance_power);
         }
     }
 }

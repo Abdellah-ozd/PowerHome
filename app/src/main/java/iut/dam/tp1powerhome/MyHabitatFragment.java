@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ public class MyHabitatFragment extends Fragment {
     private RecyclerView rvMyDevices;
     private ApplianceAdapter adapter;
     private int myHabitatId = 1;
+    private TextView tvTotalWatts; // Le gros texte du dashboard
 
     @Nullable
     @Override
@@ -44,7 +46,7 @@ public class MyHabitatFragment extends Fragment {
 
         rvMyDevices = view.findViewById(R.id.rv_habitats);
         rvMyDevices.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        tvTotalWatts = view.findViewById(R.id.tv_total_watts);
         Button btnAdd = view.findViewById(R.id.btn_add_habitat);
         btnAdd.setText("Ajouter un équipement 🔌");
 
@@ -105,11 +107,23 @@ public class MyHabitatFragment extends Fragment {
                         Type type = new TypeToken<List<Appliance>>(){}.getType();
                         List<Appliance> myDevices = new Gson().fromJson(result, type);
 
+                        // LA FAMEUSE BOUCLE EST LÀ 👇
                         int total = 0;
-                        for (Appliance a : myDevices) total += a.getPuissanceWatts();
+                        for (Appliance a : myDevices) {
+                            total += a.getPuissanceWatts();
+                        }
 
-                        if(getActivity() != null) getActivity().setTitle("Ma Conso totale : " + total + " W");
+                        // 🔥 ON MET À JOUR LE GROS DASHBOARD BLEU NUIT
+                        if (tvTotalWatts != null) {
+                            tvTotalWatts.setText(total + " W");
+                        }
 
+                        // Et on met aussi à jour le petit titre en haut au cas où
+                        if(getActivity() != null) {
+                            getActivity().setTitle("Ma Conso totale : " + total + " W");
+                        }
+
+                        // On affiche les cartes
                         adapter = new ApplianceAdapter(getContext(), myDevices);
                         rvMyDevices.setAdapter(adapter);
                     }
