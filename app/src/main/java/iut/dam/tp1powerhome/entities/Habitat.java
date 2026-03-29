@@ -1,30 +1,45 @@
 package iut.dam.tp1powerhome.entities;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Habitat {
-    int id;
-    int floor;
-    double area;
-    User resident;
-    List<Appliance> appliances;
+    @SerializedName("id")
+    private int id;
 
-    // Méthode 1 : Convertir un texte JSON en un seul objet Habitat
-    public static Habitat getFromJson(String json){
-        Gson gson = new Gson();
-        Habitat obj = gson.fromJson(json, Habitat.class);
-        return obj;
+    // On force la lecture de l'étage ici ! 🏢
+    @SerializedName("floor")
+    private int floor;
+
+    @SerializedName("area")
+    private double area;
+
+    @SerializedName("resident_name")
+    private String residentName;
+
+    private List<Appliance> appliances;
+
+    public int getId() { return id; }
+    public int getFloor() { return floor; }
+    public double getArea() { return area; }
+    public String getResidentName() { return residentName; }
+
+    public List<Appliance> getAppliances() {
+        if (appliances == null) return new ArrayList<>();
+        return appliances;
     }
 
-    // Méthode 2 : Convertir un gros texte JSON en une Liste d'Habitats
+    public void setAppliances(List<Appliance> appliances) {
+        this.appliances = appliances;
+    }
+
     public static List<Habitat> getListFromJson(String json) {
-        Gson gson = new Gson();
         Type type = new TypeToken<List<Habitat>>(){}.getType();
-        List<Habitat> list = gson.fromJson(json, type);
-        return list;
+        return new Gson().fromJson(json, type);
     }
 }

@@ -10,7 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
-import iut.dam.tp1powerhome.appliance.IAppliance;
+import iut.dam.tp1powerhome.entities.Habitat;
+import iut.dam.tp1powerhome.entities.Appliance;
 
 public class HabitatAdapter extends RecyclerView.Adapter<HabitatAdapter.HabitatViewHolder> {
 
@@ -68,7 +69,7 @@ public class HabitatAdapter extends RecyclerView.Adapter<HabitatAdapter.HabitatV
 
             // 👑 LE RETOUR DE TA MASTERCLASS POUR LES ICÔNES ET LE +X 👑
             holder.iconsContainer.removeAllViews();
-            List<IAppliance> apps = habitat.getAppliances();
+            List<Appliance> apps = habitat.getAppliances();
             int maxIcons = 5; // On affiche max 7 icônes, après on met le +X
 
             for (int i = 0; i < apps.size(); i++) {
