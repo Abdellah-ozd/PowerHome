@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new androidx.appcompat.app.AlertDialog.Builder(this)
                     .setTitle("À propos de PowerHome")
                     .setMessage("PowerHome v1.0\nDéveloppée par MazAbd Software.")
-                    .setPositiveButton("Carré", null)
+                    .setPositiveButton("OK", null)
                     .show();
         }
         else if (id == R.id.nav_calendrier) {
