@@ -86,13 +86,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Tuer l'activity
             finish();
         }
-        // ... en dessous de tes autres "else if" ...
-        else if (id == R.id.nav_about) { // Vérifie juste que c'est le bon ID de ton menu XML !
+        else if (id == R.id.nav_about) {
             new androidx.appcompat.app.AlertDialog.Builder(this)
                     .setTitle("À propos de PowerHome")
                     .setMessage("PowerHome v1.0\nDéveloppée par MazAbd Software.")
                     .setPositiveButton("Carré", null)
                     .show();
+        }
+        else if (id == R.id.nav_calendrier) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, new EcoFragment())
+                    .commit();
         }
         drawerDL.closeDrawer(GravityCompat.START);
         return true;

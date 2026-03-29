@@ -71,6 +71,12 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Toast.makeText(LoginActivity.this, "Connexion réussie ✅", Toast.LENGTH_SHORT).show();
 
+                                int idLocataire = 1; // 1 par défaut (Jeffrey)
+                                if (email.contains("sarah")) {
+                                    idLocataire = 2;
+                                } else if (email.contains("mehdi")) {
+                                    idLocataire = 3;
+                                }
                                 // On bascule sur l'écran principal (MainActivity)
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
