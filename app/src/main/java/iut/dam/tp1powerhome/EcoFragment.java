@@ -26,12 +26,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import iut.dam.tp1powerhome.entities.Appliance;
+
 public class EcoFragment extends Fragment {
 
     private LinearLayout listLayout;
     private String selectedDateSql;
 
-    // Classe interne pour lire le JSON de getPlanning.php
     private class Slot {
         int heure;
         int charge;
@@ -40,19 +41,14 @@ public class EcoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        // 1. ON GONFLE LE XML ! 🎈 (Fini le code Java foireux pour l'UI)
         View view = inflater.inflate(R.layout.fragment_eco, container, false);
 
-        // 2. ON RÉCUPÈRE LES ÉLÉMENTS
         CalendarView calendarView = view.findViewById(R.id.calendarView);
         listLayout = view.findViewById(R.id.ll_slots_container);
 
-        // 3. INITIALISATION DE LA DATE DU JOUR
         selectedDateSql = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         loadPlanningForDate(selectedDateSql);
 
-        // 4. QUAND ON CLIQUE SUR UNE NOUVELLE DATE
         calendarView.setOnDateChangeListener((cv, year, month, dayOfMonth) -> {
             selectedDateSql = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth);
             loadPlanningForDate(selectedDateSql);
@@ -62,14 +58,11 @@ public class EcoFragment extends Fragment {
     }
 
     private void loadPlanningForDate(String date) {
-        listLayout.removeAllViews(); // On vide l'ancienne liste
+        listLayout.removeAllViews();
         String url = "http://10.0.2.2/powerhome/getPlanning.php?date=" + date;
 
         Ion.with(this).load(url).asString().setCallback((e, result) -> {
-            if (e != null || result == null) {
-                Toast.makeText(getContext(), "Impossible de charger le planning", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            if (e != null || result == null) return;
 
             try {
                 Type type = new TypeToken<List<Slot>>(){}.getType();
@@ -80,53 +73,88 @@ public class EcoFragment extends Fragment {
                     btnSlot.setAllCaps(false);
                     String hourText = slot.heure + "h00 - " + (slot.heure + 1) + "h00";
 
-                    // LES 3 COULEURS DU PROF EN TEMPS RÉEL
                     if (slot.charge >= 70) {
-                        // ROUGE : SATURÉ (On bloque)
                         btnSlot.setText("🔴 " + hourText + " (" + slot.charge + "%) - SATURÉ");
                         btnSlot.setBackgroundColor(Color.parseColor("#FFCDD2"));
                         btnSlot.setTextColor(Color.parseColor("#C62828"));
                         btnSlot.setEnabled(false);
                     } else if (slot.charge >= 30) {
-                        // ORANGE : MOYEN (On autorise la réservation !)
                         btnSlot.setText("🟠 " + hourText + " (" + slot.charge + "%) - RÉSERVER (Moyen)");
                         btnSlot.setBackgroundColor(Color.parseColor("#FFE0B2"));
                         btnSlot.setTextColor(Color.parseColor("#EF6C00"));
-                        // 🔥 ON DÉBLOQUE LE BOUTON ICI 🔥
-                        btnSlot.setEnabled(true);
-                        btnSlot.setOnClickListener(v -> reserverEnBase(slot.heure, date));
+
+                        // 🔥 ON OUVRE LA POPUP D'ÉQUIPEMENTS AU CLIC !
+                        btnSlot.setOnClickListener(v -> demanderEquipement(slot.heure, date));
                     } else {
-                        // VERT : CREUX (Idéal)
                         btnSlot.setText("🟢 " + hourText + " (" + slot.charge + "%) - RÉSERVER (Idéal)");
                         btnSlot.setBackgroundColor(Color.parseColor("#C8E6C9"));
                         btnSlot.setTextColor(Color.parseColor("#2E7D32"));
-                        btnSlot.setEnabled(true);
-                        btnSlot.setOnClickListener(v -> reserverEnBase(slot.heure, date));
+
+                        // 🔥 PAREIL ICI !
+                        btnSlot.setOnClickListener(v -> demanderEquipement(slot.heure, date));
                     }
 
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     params.setMargins(0, 0, 0, 15);
                     btnSlot.setLayoutParams(params);
                     listLayout.addView(btnSlot);
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            } catch (Exception ex) { ex.printStackTrace(); }
         });
     }
 
-    private void reserverEnBase(int heure, String date) {
+    // 🎯 LA MASTERCLASS : On va chercher la liste de tes appareils !
+    private void demanderEquipement(int heure, String date) {
         int myHabitatId = requireContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE).getInt("connected_habitat_id", 1);
-        String url = "http://10.0.2.2/powerhome/reserver.php?habitat_id=" + myHabitatId + "&date=" + date + "&heure=" + heure;
+        String url = "http://10.0.2.2/powerhome/getEquipements.php?habitat_id=" + myHabitatId;
+
+        Ion.with(this).load(url).asString().setCallback((e, result) -> {
+            if (e != null || result == null) return;
+
+            Type type = new TypeToken<List<Appliance>>(){}.getType();
+            List<Appliance> mesEquipements = new Gson().fromJson(result, type);
+
+            if (mesEquipements.isEmpty()) {
+                Toast.makeText(getContext(), "Vous n'avez aucun équipement à réserver !", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // On prépare la liste pour la DialogBox
+            String[] nomsAppareils = new String[mesEquipements.size()];
+            for (int i = 0; i < mesEquipements.size(); i++) {
+                Appliance app = mesEquipements.get(i);
+                nomsAppareils[i] = app.getNom() + " (" + app.getPuissanceWatts() + "W)";
+            }
+
+            // On stocke le choix de l'utilisateur (par défaut la première case)
+            final int[] choix = {0};
+
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Choisir l'équipement à utiliser")
+                    .setSingleChoiceItems(nomsAppareils, 0, (dialog, which) -> {
+                        choix[0] = which; // On met à jour quand l'utilisateur clique sur une puce
+                    })
+                    .setPositiveButton("Réserver le créneau", (dialog, which) -> {
+                        Appliance appareilChoisi = mesEquipements.get(choix[0]);
+                        // On envoie la puissance en base de données !
+                        reserverEnBase(heure, date, appareilChoisi.getPuissanceWatts(), myHabitatId, appareilChoisi.getNom());
+                    })
+                    .setNegativeButton("Annuler", null)
+                    .show();
+        });
+    }
+
+    // L'envoi final
+    private void reserverEnBase(int heure, String date, int puissance, int habitatId, String nomAppareil) {
+        String url = "http://10.0.2.2/powerhome/reserver.php?habitat_id=" + habitatId + "&date=" + date + "&heure=" + heure + "&puissance=" + puissance;
 
         Ion.with(this).load(url).asString().setCallback((e, result) -> {
             if (e == null) {
                 new AlertDialog.Builder(requireContext())
                         .setTitle("🌱 Réservation Validée")
-                        .setMessage("Machine programmée à " + heure + "h00 le " + date + ".\n\n🎁 +50 EcoCoins crédités !")
-                        .setPositiveButton("Top", (dialog, which) -> {
-                            loadPlanningForDate(date); // On recharge en direct
+                        .setMessage("Votre " + nomAppareil + " (" + puissance + "W) est programmé(e) à " + heure + "h00 le " + date + ".\n\nL'impact sur le réseau a été calculé. 🎁 +50 EcoCoins ! ")
+                        .setPositiveButton("Génial", (dialog, which) -> {
+                            loadPlanningForDate(date); // La liste va se rafraîchir avec le nouveau pourcentage !
                         }).show();
             }
         });
