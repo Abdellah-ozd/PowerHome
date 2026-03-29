@@ -3,7 +3,7 @@ $host = "127.0.0.1";
 $user = "root";
 $password = "";
 $dbname = "powerhome_db";
-$port = 3307;
+$port = 3307; 
 
 // Connexion à la base
 $conn = new mysqli($host, $user, $password, $dbname, $port);
@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 if(isset($_GET['email']) && isset($_GET['password'])) {
-
+    
     $email = $_GET['email'];
     $mdp = $_GET['password'];
 
@@ -28,7 +28,7 @@ if(isset($_GET['email']) && isset($_GET['password'])) {
         // On renvoie le pass VIP à Android !
         echo json_encode(["status" => "success", "token" => $row['token']]);
     } else {
-        http_response_code(401);
+        http_response_code(401); 
         echo json_encode(["status" => "error", "message" => "Identifiants foireux mon gars."]);
     }
 

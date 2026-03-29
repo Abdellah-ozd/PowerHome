@@ -1,13 +1,13 @@
 <?php
-$host = "localhost";
+// Les clés de la maison
+$host = "127.0.0.1"; // On met l'IP direct, c'est plus sûr
 $user = "root";
 $password = "";
 $dbname = "powerhome_db";
-$port = 3307;
+$port = 3307; // 🔥 LA CLÉ DU BRAQUAGE EST LÀ 🔥
 
-// Connexion à la base
+// On tente de forcer la serrure sur la bonne porte
 $conn = new mysqli($host, $user, $password, $dbname, $port);
-
 if ($conn->connect_error) {
     http_response_code(500);
     die(json_encode(["status" => "error", "message" => "Erreur de connexion BDD"]));
