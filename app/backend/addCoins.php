@@ -11,7 +11,6 @@ if ($conn->connect_error) die(json_encode(["status" => "error"]));
 
 $hab_id = isset($_GET['habitat_id']) ? intval($_GET['habitat_id']) : 1;
 
-// On récompense le comportement éco-citoyen
 $sql = "UPDATE habitat SET eco_coins = eco_coins + 50 WHERE id = $hab_id";
 
 if ($conn->query($sql) === TRUE) {

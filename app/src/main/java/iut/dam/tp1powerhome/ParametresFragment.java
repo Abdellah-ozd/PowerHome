@@ -43,7 +43,7 @@ public class ParametresFragment extends Fragment {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 editor.putBoolean("dark_mode", false);
             }
-            editor.apply(); // Sauvegarde le carnet !
+            editor.apply();
         });
 
         // Notifications
@@ -68,13 +68,12 @@ public class ParametresFragment extends Fragment {
             tvVersion.setText("Version : Inconnue");
         }
 
-// --- LA GESTION DE LA LANGUE (TRILINGUE) ---
+// --- GESTION DE LA LANGUE (TRILINGUE) ---
         android.widget.RadioGroup rgLanguage = view.findViewById(R.id.rg_language);
         android.widget.RadioButton rbEn = view.findViewById(R.id.rb_en);
         android.widget.RadioButton rbFr = view.findViewById(R.id.rb_fr);
         android.widget.RadioButton rbEs = view.findViewById(R.id.rb_es);
 
-        // On regarde quelle langue est actuellement activée
         String currentLang = androidx.appcompat.app.AppCompatDelegate.getApplicationLocales().toLanguageTags();
         if (currentLang.contains("fr")) {
             rbFr.setChecked(true);
@@ -84,7 +83,6 @@ public class ParametresFragment extends Fragment {
             rbEn.setChecked(true); // Si c'est vide ou autre chose, c'est l'Anglais par défaut
         }
 
-        // Quand tu cliques sur une des langues...
         rgLanguage.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_en) {
                 // Retour au default (Anglais)
@@ -92,12 +90,12 @@ public class ParametresFragment extends Fragment {
                         androidx.core.os.LocaleListCompat.forLanguageTags("en")
                 );
             } else if (checkedId == R.id.rb_fr) {
-                // Mode Baguette
+                // Mode FR
                 androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
                         androidx.core.os.LocaleListCompat.forLanguageTags("fr")
                 );
             } else if (checkedId == R.id.rb_es) {
-                // Mode Tapas
+                // Mode ESP
                 androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
                         androidx.core.os.LocaleListCompat.forLanguageTags("es")
                 );

@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.fl_container, new ListHabitatsFragment())
                     .commit();
         }
-        //Fragment parametres
+        //Fragment preferences
         else if (id == R.id.nav_settings) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fl_container, new ParametresFragment())
@@ -75,6 +75,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         //Fragment myHabitat
         else if (id == R.id.nav_my_habitat) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, new MyHabitatFragment())
+                    .commit();
+        }
+        // Fragment Notifications
+        else if (id == R.id.nav_notifications) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fl_container, new MyHabitatFragment())
                     .commit();

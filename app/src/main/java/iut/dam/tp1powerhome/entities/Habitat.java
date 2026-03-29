@@ -12,7 +12,6 @@ public class Habitat {
     @SerializedName("id")
     private int id;
 
-    // On force la lecture de l'étage ici ! 🏢
     @SerializedName("floor")
     private int floor;
 

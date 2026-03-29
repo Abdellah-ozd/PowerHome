@@ -83,14 +83,12 @@ public class EcoFragment extends Fragment {
                         btnSlot.setBackgroundColor(Color.parseColor("#FFE0B2"));
                         btnSlot.setTextColor(Color.parseColor("#EF6C00"));
 
-                        // 🔥 ON OUVRE LA POPUP D'ÉQUIPEMENTS AU CLIC !
                         btnSlot.setOnClickListener(v -> demanderEquipement(slot.heure, date));
                     } else {
                         btnSlot.setText("🟢 " + hourText + " (" + slot.charge + "%) - RÉSERVER (Idéal)");
                         btnSlot.setBackgroundColor(Color.parseColor("#C8E6C9"));
                         btnSlot.setTextColor(Color.parseColor("#2E7D32"));
 
-                        // 🔥 PAREIL ICI !
                         btnSlot.setOnClickListener(v -> demanderEquipement(slot.heure, date));
                     }
 
@@ -103,7 +101,6 @@ public class EcoFragment extends Fragment {
         });
     }
 
-    // 🎯 LA MASTERCLASS : On va chercher la liste de tes appareils !
     private void demanderEquipement(int heure, String date) {
         int myHabitatId = requireContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE).getInt("connected_habitat_id", 1);
         String url = "http://10.0.2.2/powerhome/getEquipements.php?habitat_id=" + myHabitatId;
@@ -119,20 +116,18 @@ public class EcoFragment extends Fragment {
                 return;
             }
 
-            // On prépare la liste pour la DialogBox
             String[] nomsAppareils = new String[mesEquipements.size()];
             for (int i = 0; i < mesEquipements.size(); i++) {
                 Appliance app = mesEquipements.get(i);
                 nomsAppareils[i] = app.getNom() + " (" + app.getPuissanceWatts() + "W)";
             }
 
-            // On stocke le choix de l'utilisateur (par défaut la première case)
             final int[] choix = {0};
 
             new AlertDialog.Builder(requireContext())
                     .setTitle("Choisir l'équipement à utiliser")
                     .setSingleChoiceItems(nomsAppareils, 0, (dialog, which) -> {
-                        choix[0] = which; // On met à jour quand l'utilisateur clique sur une puce
+                        choix[0] = which;
                     })
                     .setPositiveButton("Réserver le créneau", (dialog, which) -> {
                         Appliance appareilChoisi = mesEquipements.get(choix[0]);
@@ -144,7 +139,6 @@ public class EcoFragment extends Fragment {
         });
     }
 
-    // L'envoi final
     private void reserverEnBase(int heure, String date, int puissance, int habitatId, String nomAppareil) {
         String url = "http://10.0.2.2/powerhome/reserver.php?habitat_id=" + habitatId + "&date=" + date + "&heure=" + heure + "&puissance=" + puissance;
 
@@ -154,7 +148,7 @@ public class EcoFragment extends Fragment {
                         .setTitle("🌱 Réservation Validée")
                         .setMessage("Votre " + nomAppareil + " (" + puissance + "W) est programmé(e) à " + heure + "h00 le " + date + ".\n\nL'impact sur le réseau a été calculé. 🎁 +50 EcoCoins ! ")
                         .setPositiveButton("Génial", (dialog, which) -> {
-                            loadPlanningForDate(date); // La liste va se rafraîchir avec le nouveau pourcentage !
+                            loadPlanningForDate(date);
                         }).show();
             }
         });

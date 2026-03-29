@@ -3,7 +3,7 @@ $host = "localhost";
 $user = "root";
 $password = "";
 $dbname = "powerhome_db";
-$port = 3307; // Toujours la bonne porte frérot
+$port = 3307;
 
 $conn = new mysqli($host, $user, $password, $dbname, $port);
 
@@ -11,7 +11,6 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Connexion crashée : " . $conn->connect_error]));
 }
 
-// On récupère l'ID de l'habitat envoyé par l'appli Android
 if (isset($_GET['habitat_id'])) {
     $habitat_id = intval($_GET['habitat_id']);
 

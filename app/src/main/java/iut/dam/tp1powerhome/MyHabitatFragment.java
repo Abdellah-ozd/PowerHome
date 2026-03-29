@@ -34,7 +34,7 @@ public class MyHabitatFragment extends Fragment {
     private RecyclerView rvMyDevices;
     private ApplianceAdapter adapter;
     private int myHabitatId = 1;
-    private TextView tvTotalWatts; // Le gros texte du dashboard
+    private TextView tvTotalWatts;
 
     @Nullable
     @Override
@@ -50,10 +50,8 @@ public class MyHabitatFragment extends Fragment {
         Button btnAdd = view.findViewById(R.id.btn_add_habitat);
         btnAdd.setText("Ajouter un équipement 🔌");
 
-        // Premier chargement de la page
         loadMyData();
 
-        // Le VRAI formulaire de mise à jour dynamique
         btnAdd.setOnClickListener(v -> showAddDeviceForm());
 
         return view;
@@ -88,7 +86,7 @@ public class MyHabitatFragment extends Fragment {
                         Ion.with(this).load(url).asString().setCallback((e, result) -> {
                             if(e == null) {
                                 Toast.makeText(getContext(), nom + " ajouté en BDD !", Toast.LENGTH_SHORT).show();
-                                loadMyData(); // 🔄 Rechargement dynamique de la vue !
+                                loadMyData();
                             }
                         });
                     }
@@ -107,24 +105,20 @@ public class MyHabitatFragment extends Fragment {
                         Type type = new TypeToken<List<Appliance>>(){}.getType();
                         List<Appliance> myDevices = new Gson().fromJson(result, type);
 
-                        // LA FAMEUSE BOUCLE EST LÀ 👇
                         int total = 0;
                         for (Appliance a : myDevices) {
                             total += a.getPuissanceWatts();
                         }
 
-                        // 🔥 ON MET À JOUR LE GROS DASHBOARD BLEU NUIT
                         if (tvTotalWatts != null) {
                             tvTotalWatts.setText(total + " W");
                         }
 
-                        // Et on met aussi à jour le petit titre en haut au cas où
                         if(getActivity() != null) {
                             getActivity().setTitle("Ma Conso totale : " + total + " W");
                         }
 
-                        // On affiche les cartes
-                        adapter = new ApplianceAdapter(getContext(), myDevices);
+                        adapter = new ApplianceAdapter(getContext(), myDevices, myHabitatId, this::loadMyData);
                         rvMyDevices.setAdapter(adapter);
                     }
                 });

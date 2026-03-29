@@ -16,7 +16,7 @@
         android:title="@string/menu_calendar" />
     <item
         android:id="@+id/nav_notifications"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@android:drawable/ic_popup_reminder"
         android:title="@string/menu_notifications" />
     <item
         android:id="@+id/nav_settings"
@@ -24,7 +24,7 @@
         android:title="@string/menu_settings" />
     <item
         android:id="@+id/nav_about"
-        android:icon="@android:drawable/ic_menu_recent_history"
+        android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/menu_about" />
     <item
         android:id="@+id/nav_logout"

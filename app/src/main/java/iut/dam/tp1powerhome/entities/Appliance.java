@@ -7,7 +7,7 @@ public class Appliance {
     private String nom;
     @SerializedName("puissance_watts")
     private int puissanceWatts;
-
+    private String date_ajout;
     public String getNom() { return nom; }
     public int getPuissanceWatts() { return puissanceWatts; }
 
@@ -22,6 +22,8 @@ public class Appliance {
         if (n.contains("radiateur") || n.contains("chauffage")) return android.R.drawable.ic_menu_mylocation;
         if (n.contains("console") || n.contains("pc") || n.contains("ordinateur")) return android.R.drawable.ic_menu_compass;
 
-        return android.R.drawable.ic_menu_info_details; // Icône par défaut
+        return android.R.drawable.ic_menu_info_details;
     }
+
+    public String getDate_ajout() { return date_ajout; }
 }

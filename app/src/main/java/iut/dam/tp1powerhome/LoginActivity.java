@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +28,10 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_pass);
         btnLogin = findViewById(R.id.btn_connect);
-
+        TextView tvRegister = findViewById(R.id.tv_register);
+        tvRegister.setOnClickListener(v -> {
+            startActivity(new android.content.Intent(LoginActivity.this, RegisterActivity.class));
+        });
         btnLogin.setOnClickListener(v -> tenterLaConnexion());
     }
 
