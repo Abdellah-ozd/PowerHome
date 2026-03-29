@@ -3,9 +3,10 @@ $host = "localhost";
 $user = "root";
 $password = "";
 $dbname = "powerhome_db";
+$port = 3307;
 
 // Connexion
-$conn = new mysqli($host, $user, $password, $dbname);
+$conn = new mysqli($host, $user, $password, $dbname, $port);
 
 if ($conn->connect_error) {
     die("Aïe : " . $conn->connect_error);

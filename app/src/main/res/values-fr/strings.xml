@@ -49,6 +49,7 @@
     <string name="menu_habitats">Habitats</string>
     <string name="menu_my_habitat">Mon Habitat</string>
     <string name="menu_settings">Paramètres</string>
+    <string name="menu_notifications">Notifications</string>
     <string name="menu_log_out">Déconnexion</string>
 
     <!--Settings fragments-->

@@ -49,6 +49,7 @@
     <string name="menu_habitats">Housings</string>
     <string name="menu_my_habitat">My Housing</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_notifications">Notifications</string>
     <string name="menu_log_out">Log out</string>
 
     <!--Settings fragment-->
