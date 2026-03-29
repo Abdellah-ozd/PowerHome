@@ -3,83 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:background="#F5F5F5">
+    android:background="#F5F5F5"
+    android:padding="20dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="📅 Calendrier Éco-Citoyen"
-        android:textSize="24sp"
+        android:text="📅 Réserver un créneau"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="20dp"
-        android:textColor="#333333"/>
+        android:textColor="#333333"
+        android:layout_marginBottom="15dp"/>
 
-    <TextView
+    <CalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aujourd'hui - 30 Mars 2026"
-        android:textSize="16sp"
-        android:textStyle="italic"
-        android:gravity="center"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
         android:layout_marginBottom="20dp"/>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#FFEBEE"
-        android:padding="15dp"
-        android:elevation="4dp"
-        android:layout_marginBottom="15dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_slots_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🔴 19h00 - 20h00 : PIC DE CONSOMMATION"
-            android:textColor="#D32F2F"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Le réseau de la résidence est saturé. Évitez les gros électroménagers."
-            android:layout_marginTop="5dp"
-            android:textColor="#555555"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#E8F5E9"
-        android:padding="15dp"
-        android:elevation="4dp"
-        android:layout_marginBottom="25dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🟢 22h00 - 23h00 : HEURES CREUSES"
-            android:textColor="#388E3C"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Idéal pour vos machines. Réservez ce créneau et gagnez +50 EcoCoins !"
-            android:layout_marginTop="5dp"
-            android:textColor="#555555"/>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_reserver_creneau"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="RÉSERVER LE CRÉNEAU DE 22H\n(Décaler mon Lave-Linge)"
-        android:backgroundTint="#4CAF50"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"/>
+            android:orientation="vertical" />
+    </ScrollView>
 
 </LinearLayout>
