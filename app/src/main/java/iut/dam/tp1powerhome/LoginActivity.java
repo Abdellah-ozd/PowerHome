@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
                         if (e != null) {
-                            Toast.makeText(LoginActivity.this, "Crash réseau 💥", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Erreur réseau", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Erreur de lecture des données", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, "Identifiants foireux ❌", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Identifiants incorrect ❌", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

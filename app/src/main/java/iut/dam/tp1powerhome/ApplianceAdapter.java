@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
 
         holder.tvName.setText(app.getNom());
         holder.tvPower.setText(app.getPuissanceWatts() + " W");
+        holder.ivIcon.setImageResource(app.getIconResId());
 
         holder.itemView.setOnClickListener(v -> {
 
@@ -98,6 +100,8 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
         });
     }
 
+
+
     @Override
     public int getItemCount() {
         return appliances == null ? 0 : appliances.size();
@@ -105,10 +109,13 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
 
     public static class ApplianceViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPower;
+        ImageView ivIcon;
+
         public ApplianceViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_appliance_name);
             tvPower = itemView.findViewById(R.id.tv_appliance_power);
+            ivIcon = itemView.findViewById(R.id.iv_appliance_icon);
         }
     }
 }
