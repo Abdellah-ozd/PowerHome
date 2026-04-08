@@ -23,7 +23,12 @@ import java.util.concurrent.TimeUnit;
 import iut.dam.tp1powerhome.entities.Appliance;
 
 public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.ApplianceViewHolder> {
+    private static final int SEUIL_ECO = 250;
+    private static final int SEUIL_MOYEN = 600;
 
+    private static final String COULEUR_VERT = "#2E7D32";
+    private static final String COULEUR_ORANGE = "#F68B1E";
+    private static final String COULEUR_ROUGE = "#D32F2F";
     private List<Appliance> appliances;
     private Context context;
     private int habitatId;
@@ -31,9 +36,14 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
 
     public ApplianceAdapter(Context context, List<Appliance> appliances, int habitatId, Runnable onDataChanged) {
         this.context = context;
-        this.appliances = appliances;
         this.habitatId = habitatId;
         this.onDataChanged = onDataChanged;
+
+        if (appliances != null) {
+            appliances.sort((a1, a2) -> Integer.compare(a1.getPuissanceWatts(), a2.getPuissanceWatts()));
+        }
+        this.appliances = appliances;
+
     }
 
     @NonNull
@@ -46,10 +56,19 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
     @Override
     public void onBindViewHolder(@NonNull ApplianceViewHolder holder, int position) {
         Appliance app = appliances.get(position);
+        int power = app.getPuissanceWatts();
 
         holder.tvName.setText(app.getNom());
         holder.tvPower.setText(app.getPuissanceWatts() + " W");
         holder.ivIcon.setImageResource(app.getIconResId());
+
+        if (power <= SEUIL_ECO) {
+            holder.tvPower.setTextColor(android.graphics.Color.parseColor("#2E7D32"));
+        } else if (power <= SEUIL_MOYEN) {
+            holder.tvPower.setTextColor(android.graphics.Color.parseColor("#F68B1E"));
+        } else {
+            holder.tvPower.setTextColor(android.graphics.Color.parseColor("#D32F2F"));
+        }
 
         holder.itemView.setOnClickListener(v -> {
 
@@ -73,7 +92,7 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
 
             // Calcul de la conso totale estimée
             long consoTotale = jours * app.getPuissanceWatts();
-            float consoKwh = consoTotale / 1000f; // On convertit en kWh pour faire plus pro !
+            float consoKwh = consoTotale / 1000f; // Conversion en kWh
 
             // Message de la DialogBox
             String messageStats = "📅 Ajouté le : " + (app.getDate_ajout() != null ? app.getDate_ajout() : "Aujourd'hui") + "\n"
