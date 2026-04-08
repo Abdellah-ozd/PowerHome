@@ -1,18 +1,16 @@
 <?php
-$host = "localhost";
+$host = "127.0.0.1"; // On met l'IP direct, c'est plus sûr
 $user = "root";
 $password = "";
 $dbname = "powerhome_db";
 $port = 3307;
 
-// Connexion
 $conn = new mysqli($host, $user, $password, $dbname, $port);
 
 if ($conn->connect_error) {
-    die("Aïe : " . $conn->connect_error);
+    die("Aïe, la connexion a pété : " . $conn->connect_error);
 }
 
-// On aspire tout, même les nouvelles colonnes
 $sql = "SELECT id, floor, area, resident_name, appliances_count FROM habitat";
 $result = $conn->query($sql);
 
@@ -24,7 +22,6 @@ if ($result->num_rows > 0) {
     }
 }
 
-// On balance le JSON
 header('Content-Type: application/json');
 echo json_encode($habitats);
 

@@ -1,13 +1,13 @@
 <resources>
     <!--Splash Activity-->
-    <string name="app_name">TPPowerHome</string>
-    <string name="splash_footer">Par AbdSoftware</string>
+    <string name="app_name">PowerHome</string>
+    <string name="splash_footer">Par MazAbdSoftware</string>
     <!--Login Activity-->
     <string name="login_toolbar_title">Connectez-vous</string>
     <string name="login_title">Identifiez-vous</string>
     <string name="login_hint_email">E-mail</string>
     <string name="login_hint_pass">Mot de passe</string>
-    <string name="login_new_user">Nouveau sur Jumia ?</string>
+    <string name="login_new_user">Nouveau sur PowerHome ?</string>
     <string name="login_or">OU</string>
     <string name="btn_connect">CONNECTEZ-VOUS</string>
     <string name="btn_register">CRÉER UN COMPTE</string>
@@ -50,6 +50,8 @@
     <string name="menu_my_habitat">Mon Habitat</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_notifications">Notifications</string>
+    <string name="menu_about">A propos</string>
+    <string name="menu_calendar">Calendrier</string>
     <string name="menu_log_out">Déconnexion</string>
 
     <!--Settings fragments-->
@@ -57,4 +59,21 @@
     <string name="setting_notification">Notifications push</string>
     <string name="setting_language">Language de l\'application</string>
     <string name="title_setting_frag">Paramètres</string>
+
+    <string name="register_title">Créer un compte</string>
+    <string name="register_hint_name">Nom &amp; Prénom</string>
+    <string name="register_hint_floor">Étage</string>
+    <string name="register_hint_area">Surface (m²)</string>
+    <string name="register_hint_pass_confirm">Confirmer le mot de passe</string>
+    <string name="register_already_account">Déjà un compte ? </string>
+
+    <string name="notif_title">Mes Notifications 🔔</string>
+    <string name="notif_master">Autoriser les notifications</string>
+    <string name="notif_alerts">Alertes réseau (Rouge)</string>
+    <string name="notif_reservations">Rappels de mes réservations</string>
+    <string name="notif_ecocoins">Nouveaux EcoCoins gagnés 💰</string>
+
+    <string name="setting_account_title">Compte et Données</string>
+    <string name="setting_clear_cache">Vider le cache de l\'application</string>
+    <string name="setting_delete_account">Supprimer mon compte</string>
 </resources>

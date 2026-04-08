@@ -1,121 +1,125 @@
 package iut.dam.tp1powerhome;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.koushikdutta.async.future.FutureCallback;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.ion.Ion;
 
+import java.lang.reflect.Type;
 import java.util.List;
+
+import iut.dam.tp1powerhome.entities.Appliance;
 
 public class MyHabitatFragment extends Fragment {
 
-    private RecyclerView rvHabitats;
-    private HabitatAdapter adapter;
+    private RecyclerView rvMyDevices;
+    private ApplianceAdapter adapter;
+    private int myHabitatId = 1;
+    private TextView tvTotalWatts;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_myhabitat, container, false);
 
-        rvHabitats = view.findViewById(R.id.rv_habitats);
-        rvHabitats.setLayoutManager(new LinearLayoutManager(getContext()));
+        SharedPreferences prefs = requireContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+        myHabitatId = prefs.getInt("connected_habitat_id", 1);
 
-        loadData();
-
+        rvMyDevices = view.findViewById(R.id.rv_habitats);
+        rvMyDevices.setLayoutManager(new LinearLayoutManager(getContext()));
+        tvTotalWatts = view.findViewById(R.id.tv_total_watts);
         Button btnAdd = view.findViewById(R.id.btn_add_habitat);
-        btnAdd.setOnClickListener(v -> {
-            ajouterHabitatTest("Test", 9, 88.5, 4);
-        });
+        btnAdd.setText("Ajouter un équipement 🔌");
+
+        loadMyData();
+
+        btnAdd.setOnClickListener(v -> showAddDeviceForm());
 
         return view;
     }
 
-    private void loadData() {
-        String urlString = "http://10.0.2.2/powerhome/getHabitats.php";
+    private void showAddDeviceForm() {
+        LinearLayout layout = new LinearLayout(getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 10);
 
-        // Appel au serveur XAMPP
-        Ion.with(this)
-                .load(urlString)
-                .asString()
-                .withResponse() // Récupére la reponse pour gérer les erreurs
-                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
-                        // 1. Gestion des gros crashs réseau (ex: pas de wifi, XAMPP éteint)
-                        if (e != null) {
-                            Log.e("API_POWERHOME", "ERREUR DE CONNEXION : ", e);
-                            return;
-                        }
+        final EditText inputName = new EditText(getContext());
+        inputName.setHint("Nom (ex: Aspirateur)");
+        layout.addView(inputName);
 
-                        // 2. Le contrôle de la douane (HTTP STATUS CODE)
-                        if (response != null) {
-                            int code = response.getHeaders().code();
-                            Log.d("API_POWERHOME", "CODE HTTP REÇU : " + code);
+        final EditText inputPower = new EditText(getContext());
+        inputPower.setHint("Puissance en Watts (ex: 800)");
+        inputPower.setInputType(InputType.TYPE_CLASS_NUMBER);
+        layout.addView(inputPower);
 
-                            if (code == 200) {
-                                // BINGO ! Le code 200 veut dire que tout est nickel ✅
-                                String result = response.getResult(); // On extrait le vrai texte JSON du colis
-                                Log.d("API_POWERHOME", "JSON REÇU : " + result);
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Nouvel Équipement")
+                .setView(layout)
+                .setPositiveButton("Ajouter", (dialog, which) -> {
+                    String nom = inputName.getText().toString().trim();
+                    String power = inputPower.getText().toString().trim();
 
-                                // On traduit le texte en objets Java
-                                List<Habitat> maListeDHabitats = Habitat.getListFromJson(result);
+                    if (!nom.isEmpty() && !power.isEmpty()) {
+                        String url = "http://10.0.2.2/powerhome/addEquipement.php?habitat_id=" + myHabitatId
+                                + "&nom=" + android.net.Uri.encode(nom)
+                                + "&puissance=" + power;
 
-                                // On branche l'Adapter
-                                adapter = new HabitatAdapter(getContext(), maListeDHabitats);
-                                rvHabitats.setAdapter(adapter);
-
-                            } else if (code >= 400 && code < 500) {
-                                // Erreur de ton côté (mauvaise URL, t'es pas autorisé...)
-                                Log.e("API_POWERHOME", "EMBROUILLE CLIENT (Erreur " + code + ")");
-                            } else if (code >= 500) {
-                                // Erreur côté serveur (Ton PHP a craché)
-                                Log.e("API_POWERHOME", "LE SERVEUR EST EN PLS (Erreur " + code + ")");
+                        Ion.with(this).load(url).asString().setCallback((e, result) -> {
+                            if(e == null) {
+                                Toast.makeText(getContext(), nom + " ajouté en BDD !", Toast.LENGTH_SHORT).show();
+                                loadMyData();
                             }
-                        }
+                        });
                     }
-                });
+                })
+                .setNegativeButton("Annuler", null)
+                .show();
     }
 
-    // Envoyer des données
-    private void ajouterHabitatTest(String nom, int etage, double surface, int nbEquipements) {
-
-        String urlString = "http://10.0.2.2/powerhome/addHabitat.php" +
-                "?floor=" + etage +
-                "&area=" + surface +
-                "&resident_name=" + android.net.Uri.encode(nom) +
-                "&appliances_count=" + nbEquipements;
-
+    private void loadMyData() {
+        String url = "http://10.0.2.2/powerhome/getEquipements.php?habitat_id=" + myHabitatId;
         Ion.with(this)
-                .load(urlString)
+                .load(url)
                 .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
-                        if (e != null) {
-                            Log.e("API_POWERHOME", "Erreur : ", e);
-                            return;
+                .setCallback((e, result) -> {
+                    if (e == null && result != null) {
+                        Type type = new TypeToken<List<Appliance>>(){}.getType();
+                        List<Appliance> myDevices = new Gson().fromJson(result, type);
+
+                        int total = 0;
+                        for (Appliance a : myDevices) {
+                            total += a.getPuissanceWatts();
                         }
 
-                        if (response != null && response.getHeaders().code() == 200) {
-                            Log.d("API_POWERHOME", "Locataire ajouté en BDD");
-
-                            // Rechargement de la liste
-                            loadData();
-                        } else {
-                            Log.e("API_POWERHOME", "Erreur lors de l'ajout Code : " + (response != null ? response.getHeaders().code() : "inconnu"));
+                        if (tvTotalWatts != null) {
+                            tvTotalWatts.setText(total + " W");
                         }
+
+                        if(getActivity() != null) {
+                            getActivity().setTitle("Ma Conso totale : " + total + " W");
+                        }
+
+                        adapter = new ApplianceAdapter(getContext(), myDevices, myHabitatId, this::loadMyData);
+                        rvMyDevices.setAdapter(adapter);
                     }
                 });
     }

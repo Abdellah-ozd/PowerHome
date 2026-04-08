@@ -1,13 +1,14 @@
 <resources>
-    <!--Splash Activity-->
-    <string name="app_name">TPPowerHome</string>
-    <string name="splash_footer">De AbdSoftware</string>
-    <!--Login Activity-->
+    <!-- Splash Activity -->
+    <string name="app_name">PowerHome</string>
+    <string name="splash_footer">Por MazAbdSoftware</string>
+
+    <!-- Login Activity -->
     <string name="login_toolbar_title">Iniciar sesión</string>
     <string name="login_title">Identifícate</string>
     <string name="login_hint_email">Correo electrónico</string>
     <string name="login_hint_pass">Contraseña</string>
-    <string name="login_new_user">¿Nuevo en Jumia?</string>
+    <string name="login_new_user">¿Nuevo en PowerHome?</string>
     <string name="login_or">O</string>
     <string name="btn_connect">INICIAR SESIÓN</string>
     <string name="btn_register">CREAR UNA CUENTA</string>
@@ -17,20 +18,22 @@
     <string name="welcome_title">Lista de residentes</string>
     <string name="floor_label">PLANTA</string>
     <string name="floor_rdc">PB</string>
-    <string name="appliance_count_singular">%1$d equipo</string>
-    <string name="appliance_count_plural">%1$d equipos</string>
-    <string name="no_appliance">Sin equipo</string>
-    <!--Dialog Box-->
+    <string name="appliance_count_singular">%1$d aparato</string>
+    <string name="appliance_count_plural">%1$d aparatos</string>
+    <string name="no_appliance">Ningún aparato</string>
+
+    <!-- Dialog Box -->
     <string name="dialog_area_format">📐 %1$.1f m²</string>
     <string name="dialog_floor_format">📍 Planta: %1$d</string>
     <string name="dialog_floor_rdc">📍 Planta baja</string>
     <string name="dialog_total_power_format">⚡ Total: %1$d W</string>
-    <string name="dialog_list_title">Detalles de los equipos:</string>
+    <string name="dialog_list_title">Detalles de los aparatos:</string>
     <string name="dialog_btn_close">Cerrar</string>
     <string name="appliance_detail_format">%1$s (%2$d W)</string>
-    <!--Devices-->
+
+    <!-- Devices -->
     <string name="device_fridge">Nevera</string>
-    <string name="device_tv">Televisión</string>
+    <string name="device_tv">Televisor</string>
     <string name="device_game_console">Consola</string>
     <string name="device_coffee_machine">Cafetera</string>
     <string name="device_oven">Horno</string>
@@ -42,19 +45,38 @@
     <string name="device_dishwasher">Lavavajillas</string>
     <string name="device_vaccum">Aspiradora</string>
 
-    <string name="open">Abrir</string>
-    <string name="close">Fermar</string>
-    <!--Nav Menu-->
-    <string name="menu_habitats">Habitantes</string>
-    <string name="menu_my_habitat">Esto Habitos</string>
-    <string name="menu_settings">Parametar</string>
-    <string name="menu_notifications">Notifications</string>
-    <string name="menu_log_out">Deconnectar</string>
+    <string name="open">Abrir menú</string>
+    <string name="close">Cerrar menú</string>
 
-    <!--Settings fragment-->
-    <string name="setting_darkmode">Darko modar</string>
-    <string name="setting_notification">Notificationes pushar</string>
-    <string name="setting_language">Applicacion idioma</string>
-    <string name="title_setting_frag">Parametros</string>
+    <!-- Nav Menu -->
+    <string name="menu_habitats">Viviendas</string>
+    <string name="menu_my_habitat">Mi vivienda</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="menu_notifications">Notificaciones</string>
+    <string name="menu_about">Acerca de</string>
+    <string name="menu_calendar">Calendario</string>
+    <string name="menu_log_out">Cerrar sesión</string>
 
+    <!-- Settings fragment -->
+    <string name="setting_darkmode">Modo oscuro</string>
+    <string name="setting_notification">Notificaciones push</string>
+    <string name="setting_language">Idioma de la aplicación</string>
+    <string name="title_setting_frag">Ajustes</string>
+
+    <string name="register_title">Crear una cuenta</string>
+    <string name="register_hint_name">Nombre y Apellidos</string>
+    <string name="register_hint_floor">Planta</string>
+    <string name="register_hint_area">Superficie (m²)</string>
+    <string name="register_hint_pass_confirm">Confirmar contraseña</string>
+    <string name="register_already_account">¿Ya tienes una cuenta? </string>
+
+    <string name="notif_title">Mis Notificaciones 🔔</string>
+    <string name="notif_master">Permitir notificaciones</string>
+    <string name="notif_alerts">Alertas de red (Rojo)</string>
+    <string name="notif_reservations">Recordatorios de reservas</string>
+    <string name="notif_ecocoins">Nuevos EcoCoins ganados 💰</string>
+
+    <string name="setting_account_title">Cuenta y Datos</string>
+    <string name="setting_clear_cache">Borrar caché de la aplicación</string>
+    <string name="setting_delete_account">Eliminar mi cuenta</string>
 </resources>

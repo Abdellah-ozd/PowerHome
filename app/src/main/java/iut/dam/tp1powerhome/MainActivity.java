@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.fl_container, new ListHabitatsFragment())
                     .commit();
         }
-        //Fragment parametres
+        //Fragment preferences
         else if (id == R.id.nav_settings) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fl_container, new ParametresFragment())
@@ -79,12 +79,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.fl_container, new MyHabitatFragment())
                     .commit();
         }
+        // Fragment Notifications
+        else if (id == R.id.nav_notifications) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, new NotificationsFragment())
+                    .commit();
+        }
         if (id == R.id.nav_logout) {
             // Départ vers loginactivtiy
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             // Tuer l'activity
             finish();
+        }
+        else if (id == R.id.nav_about) {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("À propos de PowerHome")
+                    .setMessage("PowerHome v1.0\nDéveloppée par MazAbd Software.")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+        else if (id == R.id.nav_calendrier) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, new EcoFragment())
+                    .commit();
         }
         drawerDL.closeDrawer(GravityCompat.START);
         return true;

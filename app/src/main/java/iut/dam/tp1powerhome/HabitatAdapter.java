@@ -10,20 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
-import iut.dam.tp1powerhome.appliance.IAppliance;
+import iut.dam.tp1powerhome.entities.Habitat;
+import iut.dam.tp1powerhome.entities.Appliance;
 
 public class HabitatAdapter extends RecyclerView.Adapter<HabitatAdapter.HabitatViewHolder> {
 
     private List<Habitat> habitats;
     private Context context;
-    private OnItemClickListener listener; // 🎯 LE DÉTECTEUR DE CLIC
+    private OnItemClickListener listener;
 
-    // L'interface pour le clic
     public interface OnItemClickListener {
         void onItemClick(Habitat habitat);
     }
 
-    // Méthode pour brancher le détecteur depuis tes fragments
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
@@ -66,10 +65,9 @@ public class HabitatAdapter extends RecyclerView.Adapter<HabitatAdapter.HabitatV
                 holder.tvFloorNum.setTextSize(16);
             }
 
-            // 👑 LE RETOUR DE TA MASTERCLASS POUR LES ICÔNES ET LE +X 👑
             holder.iconsContainer.removeAllViews();
-            List<IAppliance> apps = habitat.getAppliances();
-            int maxIcons = 5; // On affiche max 7 icônes, après on met le +X
+            List<Appliance> apps = habitat.getAppliances();
+            int maxIcons = 5;
 
             for (int i = 0; i < apps.size(); i++) {
                 if (i < maxIcons) {
@@ -92,7 +90,6 @@ public class HabitatAdapter extends RecyclerView.Adapter<HabitatAdapter.HabitatV
                 }
             }
 
-            // 🎯 ON BRANCHE LE CLIC SUR LA CARTE ENTIÈRE
             holder.itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onItemClick(habitat);

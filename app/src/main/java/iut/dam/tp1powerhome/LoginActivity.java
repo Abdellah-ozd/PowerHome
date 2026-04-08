@@ -1,11 +1,11 @@
 package iut.dam.tp1powerhome;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,12 +23,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login); // Assure-toi que c'est le bon nom de fichier XML
+        setContentView(R.layout.activity_login);
 
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_pass);
         btnLogin = findViewById(R.id.btn_connect);
-
+        TextView tvRegister = findViewById(R.id.tv_register);
+        tvRegister.setOnClickListener(v -> {
+            startActivity(new android.content.Intent(LoginActivity.this, RegisterActivity.class));
+        });
         btnLogin.setOnClickListener(v -> tenterLaConnexion());
     }
 
@@ -41,10 +44,8 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // 1. On fabrique l'URL du videur comme dans le PDF
         String urlString = "http://10.0.2.2/powerhome/login.php?email=" + email + "&password=" + password;
 
-        // 2. On envoie la requête avec Ion
         Ion.with(this)
                 .load(urlString)
                 .asString()
@@ -53,35 +54,31 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
                         if (e != null) {
-                            Toast.makeText(LoginActivity.this, "Crash réseau 💥", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Erreur réseau", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         if (response != null && response.getHeaders().code() == 200) {
-                            // BINGO ! Le videur nous laisse rentrer
                             String result = response.getResult();
                             try {
-                                // On découpe le JSON pour extraire le fameux Token VIP
                                 JSONObject jsonObject = new JSONObject(result);
-                                String tokenVIP = jsonObject.getString("token");
+                                int idLocataire = jsonObject.getInt("habitat_id");
 
-                                // 💡 TECHNIQUE DE DARON : On sauvegarde le Token dans le téléphone
-                                SharedPreferences prefs = getSharedPreferences("PowerHomePrefs", MODE_PRIVATE);
-                                prefs.edit().putString("MON_TOKEN_VIP", tokenVIP).apply();
+                                android.content.SharedPreferences prefs = getSharedPreferences("USER_DATA", android.content.Context.MODE_PRIVATE);
+                                prefs.edit().putInt("connected_habitat_id", idLocataire).apply();
 
                                 Toast.makeText(LoginActivity.this, "Connexion réussie ✅", Toast.LENGTH_SHORT).show();
 
-                                // On bascule sur l'écran principal (MainActivity)
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
-                                finish(); // On ferme l'écran de login pour pas qu'il revienne en arrière
+                                finish();
 
                             } catch (Exception ex) {
-                                Log.e("API_POWERHOME", "Erreur de lecture du Token : ", ex);
+                                Log.e("API_POWERHOME", "Erreur JSON : ", ex);
+                                Toast.makeText(LoginActivity.this, "Erreur de lecture des données", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            // Code 401 : Mauvais mdp
-                            Toast.makeText(LoginActivity.this, "Identifiants foireux ❌", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Identifiants incorrect ❌", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
