@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Remplis tout frérot !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Veuillez remplir vos identifiants", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                                 android.content.SharedPreferences prefs = getSharedPreferences("USER_DATA", android.content.Context.MODE_PRIVATE);
                                 prefs.edit().putInt("connected_habitat_id", idLocataire).apply();
 
-                                Toast.makeText(LoginActivity.this, "Connexion réussie ✅", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Erreur de lecture des données", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, "Identifiants incorrect ❌", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Identifiants incorrect", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
