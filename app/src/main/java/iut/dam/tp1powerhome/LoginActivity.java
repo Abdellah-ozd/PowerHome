@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Veuillez remplir vos identifiants", Toast.LENGTH_SHORT).show();
             return;
         }
-
         String urlString = "http://10.0.2.2/powerhome/login.php?email=" + email + "&password=" + password;
 
         Ion.with(this)
