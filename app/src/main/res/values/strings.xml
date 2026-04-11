@@ -53,6 +53,8 @@
     <string name="menu_about">About</string>
     <string name="menu_calendar">Calendar</string>
     <string name="menu_log_out">Log out</string>
+    <string name="menu_profil">Profil</string>
+
 
     <!--Settings fragment-->
     <string name="setting_darkmode">Dark mode</string>

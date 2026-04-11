@@ -72,7 +72,6 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
 
         holder.itemView.setOnClickListener(v -> {
 
-            // Calcul du nombre de jours depuis l'ajout
             long jours = 1;
             try {
                 if (app.getDate_ajout() != null) {
@@ -83,7 +82,6 @@ public class ApplianceAdapter extends RecyclerView.Adapter<ApplianceAdapter.Appl
                     long diff = today.getTime() - dateAjout.getTime();
                     jours = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
-                    // Si ajouté aujourd'hui, on compte au moins 1 jour de conso
                     if (jours <= 0) jours = 1;
                 }
             } catch (Exception e) {

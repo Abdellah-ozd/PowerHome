@@ -85,6 +85,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.fl_container, new NotificationsFragment())
                     .commit();
         }
+        else if (id == R.id.nav_profil) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, new ProfilFragment())
+                    .commit();
+        }
         if (id == R.id.nav_logout) {
             // Départ vers loginactivtiy
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);

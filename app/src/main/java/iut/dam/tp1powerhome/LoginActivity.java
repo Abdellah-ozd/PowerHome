@@ -1,18 +1,17 @@
 package iut.dam.tp1powerhome;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -29,9 +28,8 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.et_pass);
         btnLogin = findViewById(R.id.btn_connect);
         TextView tvRegister = findViewById(R.id.tv_register);
-        tvRegister.setOnClickListener(v -> {
-            startActivity(new android.content.Intent(LoginActivity.this, RegisterActivity.class));
-        });
+
+        tvRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
         btnLogin.setOnClickListener(v -> tenterLaConnexion());
     }
 
@@ -61,10 +59,15 @@ public class LoginActivity extends AppCompatActivity {
                             String result = response.getResult();
                             try {
                                 JSONObject jsonObject = new JSONObject(result);
-                                int idLocataire = jsonObject.getInt("habitat_id");
 
-                                android.content.SharedPreferences prefs = getSharedPreferences("USER_DATA", android.content.Context.MODE_PRIVATE);
-                                prefs.edit().putInt("connected_habitat_id", idLocataire).apply();
+                                int idLocataire = jsonObject.getInt("habitat_id");
+                                int idUser = jsonObject.getInt("user_id");
+
+                                SharedPreferences prefs = getSharedPreferences("PowerHomeSession", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putInt("habitat_id", idLocataire);
+                                editor.putInt("user_id", idUser);
+                                editor.apply();
 
                                 Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
 
@@ -74,10 +77,10 @@ public class LoginActivity extends AppCompatActivity {
 
                             } catch (Exception ex) {
                                 Log.e("API_POWERHOME", "Erreur JSON : ", ex);
-                                Toast.makeText(LoginActivity.this, "Erreur de lecture des données", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Erreur de lecture", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, "Identifiants incorrect", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Identifiants incorrects", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

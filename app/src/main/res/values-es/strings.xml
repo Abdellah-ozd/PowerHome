@@ -56,6 +56,7 @@
     <string name="menu_about">Acerca de</string>
     <string name="menu_calendar">Calendario</string>
     <string name="menu_log_out">Cerrar sesión</string>
+    <string name="menu_profil">Profil</string>
 
     <!-- Settings fragment -->
     <string name="setting_darkmode">Modo oscuro</string>

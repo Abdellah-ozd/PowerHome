@@ -29,17 +29,14 @@ public class NotificationsFragment extends Fragment {
         SwitchCompat switchEcoCoins = view.findViewById(R.id.switch_notif_ecocoins);
         LinearLayout layoutSubNotifs = view.findViewById(R.id.layout_sub_notifs);
 
-        // Chargement des données
         boolean isMasterOn = prefs.getBoolean("notif_master", true);
         switchMaster.setChecked(isMasterOn);
         switchAlertes.setChecked(prefs.getBoolean("notif_alertes", true));
         switchReservations.setChecked(prefs.getBoolean("notif_reservations", true));
         switchEcoCoins.setChecked(prefs.getBoolean("notif_ecocoins", true));
 
-        // Fonction pour griser les sous-boutons si le master est coupé
         toggleSubOptions(layoutSubNotifs, isMasterOn);
 
-        // Les écouteurs
         switchMaster.setOnCheckedChangeListener((btn, isChecked) -> {
             editor.putBoolean("notif_master", isChecked).apply();
             toggleSubOptions(layoutSubNotifs, isChecked);

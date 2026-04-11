@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         String passConfirm = etPassConfirm.getText().toString().trim();
 
         if (name.isEmpty() || email.isEmpty() || floor.isEmpty() || area.isEmpty() || pass.isEmpty()) {
-            Toast.makeText(this, "Remplis tous les champs !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Champs vides", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -64,12 +64,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         Ion.with(this).load(url).asString().setCallback((e, result) -> {
             if (e != null) {
-                Toast.makeText(this, "Erreur réseau 💥", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Erreur réseau", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (result != null && result.contains("success")) {
-                Toast.makeText(this, "Inscription réussie ! ✅", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Inscription réussie", Toast.LENGTH_LONG).show();
                 finish();
             } else {
                 Toast.makeText(this, "Erreur lors de l'inscription", Toast.LENGTH_SHORT).show();

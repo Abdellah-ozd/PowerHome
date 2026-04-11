@@ -54,6 +54,7 @@
     <string name="menu_calendar">Calendrier</string>
     <string name="menu_log_out">Déconnexion</string>
 
+
     <!--Settings fragments-->
     <string name="setting_darkmode">Mode sombre</string>
     <string name="setting_notification">Notifications push</string>

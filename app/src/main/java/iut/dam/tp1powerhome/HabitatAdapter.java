@@ -86,7 +86,7 @@ public class HabitatAdapter extends RecyclerView.Adapter<HabitatAdapter.HabitatV
                     tvMore.setTextColor(0xFF777777);
                     tvMore.setPadding(4, 0, 0, 0);
                     holder.iconsContainer.addView(tvMore);
-                    break; // On arrête la boucle direct
+                    break;
                 }
             }
 

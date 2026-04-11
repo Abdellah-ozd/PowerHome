@@ -22,6 +22,7 @@ import com.koushikdutta.ion.Ion;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -68,27 +69,39 @@ public class EcoFragment extends Fragment {
                 Type type = new TypeToken<List<Slot>>(){}.getType();
                 List<Slot> slots = new Gson().fromJson(result, type);
 
+                Calendar rightNow = Calendar.getInstance();
+                int heureActuelle = rightNow.get(Calendar.HOUR_OF_DAY);
+                String dateAujourdhui = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(rightNow.getTime());
+
                 for (Slot slot : slots) {
                     Button btnSlot = new Button(requireContext());
                     btnSlot.setAllCaps(false);
                     String hourText = slot.heure + "h00 - " + (slot.heure + 1) + "h00";
 
-                    if (slot.charge >= 70) {
+                    boolean isPasse = (date.compareTo(dateAujourdhui) < 0) || (date.equals(dateAujourdhui) && slot.heure <= heureActuelle);
+
+                    if (isPasse) {
+                        btnSlot.setText("🕒 " + hourText + " - Terminé");
+                        btnSlot.setBackgroundColor(Color.parseColor("#E0E0E0"));
+                        btnSlot.setTextColor(Color.parseColor("#9E9E9E"));
+                        btnSlot.setEnabled(false);
+                    } else if (slot.charge >= 70) {
+                        // SATURÉ
                         btnSlot.setText("🔴 " + hourText + " (" + slot.charge + "%) - SATURÉ");
                         btnSlot.setBackgroundColor(Color.parseColor("#FFCDD2"));
                         btnSlot.setTextColor(Color.parseColor("#C62828"));
                         btnSlot.setEnabled(false);
                     } else if (slot.charge >= 30) {
+                        // MOYEN
                         btnSlot.setText("🟠 " + hourText + " (" + slot.charge + "%) - RÉSERVER (Moyen)");
                         btnSlot.setBackgroundColor(Color.parseColor("#FFE0B2"));
                         btnSlot.setTextColor(Color.parseColor("#EF6C00"));
-
                         btnSlot.setOnClickListener(v -> demanderEquipement(slot.heure, date));
                     } else {
+                        // IDÉAL
                         btnSlot.setText("🟢 " + hourText + " (" + slot.charge + "%) - RÉSERVER (Idéal)");
                         btnSlot.setBackgroundColor(Color.parseColor("#C8E6C9"));
                         btnSlot.setTextColor(Color.parseColor("#2E7D32"));
-
                         btnSlot.setOnClickListener(v -> demanderEquipement(slot.heure, date));
                     }
 
@@ -102,7 +115,13 @@ public class EcoFragment extends Fragment {
     }
 
     private void demanderEquipement(int heure, String date) {
-        int myHabitatId = requireContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE).getInt("connected_habitat_id", 1);
+        int myHabitatId = requireContext().getSharedPreferences("PowerHomeSession", Context.MODE_PRIVATE).getInt("habitat_id", -1);
+
+        if (myHabitatId == -1) {
+            Toast.makeText(getContext(), "Erreur de session, veuillez vous reconnecter.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String url = "http://10.0.2.2/powerhome/getEquipements.php?habitat_id=" + myHabitatId;
 
         Ion.with(this).load(url).asString().setCallback((e, result) -> {
@@ -131,7 +150,6 @@ public class EcoFragment extends Fragment {
                     })
                     .setPositiveButton("Réserver le créneau", (dialog, which) -> {
                         Appliance appareilChoisi = mesEquipements.get(choix[0]);
-                        // On envoie la puissance en base de données !
                         reserverEnBase(heure, date, appareilChoisi.getPuissanceWatts(), myHabitatId, appareilChoisi.getNom());
                     })
                     .setNegativeButton("Annuler", null)
@@ -144,6 +162,8 @@ public class EcoFragment extends Fragment {
 
         Ion.with(this).load(url).asString().setCallback((e, result) -> {
             if (e == null) {
+                ajouterEcoCoins(habitatId);
+
                 new AlertDialog.Builder(requireContext())
                         .setTitle("🌱 Réservation Validée")
                         .setMessage("Votre " + nomAppareil + " (" + puissance + "W) est programmé(e) à " + heure + "h00 le " + date + ".\n\nL'impact sur le réseau a été calculé. 🎁 +50 EcoCoins ! ")
@@ -151,6 +171,12 @@ public class EcoFragment extends Fragment {
                             loadPlanningForDate(date);
                         }).show();
             }
+        });
+    }
+
+    private void ajouterEcoCoins(int habitatId) {
+        String url = "http://10.0.2.2/powerhome/addCoins.php?habitat_id=" + habitatId;
+        Ion.with(this).load(url).asString().setCallback((e, result) -> {
         });
     }
 }
